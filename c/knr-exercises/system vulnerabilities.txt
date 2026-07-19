@@ -1,0 +1,1417 @@
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ system vulnerability nasıl olur? mesela buffer overflow bunlara bir örnektir. başka ne tür açıklar dolayısıyla meydana gelir ve süistimal edilebilir?
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Sistem zafiyetleri (vulnerabilities), temelde yazılımın veya donanımın tasarlandığı mantığın dışına çıkılarak, beklenmedik bir davranış sergilemeye zorlanmasıdır. Bu genellikle "girdi güvenilmezliği" (untrusted input) veya "hatalı bellek yönetimi" prensiplerine dayanır.
+
+Bahsettiğin Buffer Overflow (Bellek Taşması), programın ayrılan hafıza alanından (buffer) fazlasına veri yazmaya çalışarak komşu bellek hücrelerini bozmasıdır. Bu, bellek güvenliği olmayan dillerde (C/C++ gibi) sıkça görülür.
+
+Ancak siber güvenlik dünyasında en az bunun kadar kritik ve farklı mantıklarla çalışan başka zafiyet türleri de vardır. İşte en yaygınları, nasıl oluştukları ve nasıl suistimal edildikleri:
+1. Enjeksiyon Zafiyetleri (Injection Flaws)
+
+Bu zafiyetler, bir uygulamanın kullanıcıdan aldığı veriyi, "veri" olarak değil de "komut" olarak algılayıp çalıştırmasıyla oluşur.
+
+    SQL Injection (SQLi):
+
+        Nasıl Olur? Veritabanı sorgusu oluşturulurken kullanıcı girdisi filtrelenmeden doğrudan sorguya eklenirse oluşur.
+
+        Örnek: Bir giriş panelinde şifre kutusuna ' OR '1'='1 yazarsan, veritabanı sorgusu "Şifre bu mu VEYA 1 eşittir 1 mi?" diye sorar. 1 her zaman 1'e eşit olduğu için şifreyi bilmeden içeri girersin.
+
+        Suistimal: Veritabanını silmek, tüm kullanıcı verilerini çalmak veya yönetici yetkisi kazanmak.
+
+    OS Command Injection:
+
+        Nasıl Olur? Web uygulaması, sunucu işletim sisteminde bir komut çalıştırıyordur (örneğin ping atmak).
+
+        Suistimal: Kullanıcı IP adresi yerine ; rm -rf / (Linux'ta her şeyi sil komutu) gönderirse, sunucu önce ping atar sonra silme komutunu çalıştırır.
+
+2. Yarış Durumu (Race Conditions)
+
+Bu zafiyet, kodlama hatasından ziyade zamanlama ve sıralama hatasıdır.
+
+    Nasıl Olur? İki veya daha fazla işlemin aynı anda aynı kaynağa (dosya, değişken, veritabanı) erişmeye çalışması ve sistemin bu karmaşayı yönetememesidir. "Time-of-Check to Time-of-Use" (TOCTOU) en bilinenidir.
+
+    Örnek (ATM Mantığı): Hesabında 100 TL var. İki farklı ATM'den tam olarak aynı mikrosaniyede 100 TL çekme isteği gönderdin. Sistem birinci isteği kontrol etti (bakiye var), tam parayı düşecekken ikinci istek geldi ve o da kontrol etti (bakiye hala var görünüyor çünkü ilki daha düşmedi).
+
+    Suistimal: Limitleri aşmak, bedava ürün almak veya yetki yükseltmek (Privilege Escalation).
+
+3. Use-After-Free (Serbest Bırakma Sonrası Kullanım)
+
+Buffer Overflow'un kuzenidir ve modern exploit geliştirme süreçlerinde (browser hackleme vb.) çok sık kullanılır.
+
+    Nasıl Olur? Bir program dinamik olarak bellekten bir yer ayırır, işi bitince bu alanı serbest bırakır (free eder). Ancak programdaki bir hata nedeniyle, bir "pointer" (işaretçi) hala o serbest bırakılan adresi göstermeye devam eder (Dangling Pointer).
+
+    Suistimal: Saldırgan, o serbest bırakılan alana kendi zararlı kodunu yerleştirir (Heap Spraying). Program eski işaretçiyi tekrar kullandığında, aslında saldırganın kodunu çalıştırmış olur.
+
+4. Kırık Kimlik Doğrulama ve Yetkilendirme (Broken Access Control)
+
+Bu teknik bir hatadan çok, mantıksal bir tasarım hatasıdır.
+
+    Insecure Direct Object References (IDOR):
+
+        Nasıl Olur? Sistem, verilere erişirken sadece ID numarasına bakar ama "Bu ID'ye erişen kişi gerçekten bu verinin sahibi mi?" diye sormaz.
+
+        Örnek: Fatura görüntüleme linkin site.com/fatura?id=100 olsun. Sen tarayıcıda id=101 yaptığında başka birinin faturasını görüyorsan, burada IDOR vardır.
+
+        Suistimal: Kişisel verilerin ifşası, yetkisiz işlem yapma.
+
+5. Siteler Arası Komut Dosyalama (XSS - Cross-Site Scripting)
+
+Kullanıcıya giden sayfaların manipüle edilmesidir.
+
+    Nasıl Olur? Uygulama, bir kullanıcıdan aldığı girdiyi (örneğin bir yorumu), başka bir kullanıcıya gösterirken temizlemez (sanitize etmez).
+
+    Örnek: Bir saldırgan yorum kısmına <script>alert('Hacked')</script> yazar. Diğer kullanıcılar o yorumu okumak için sayfayı açtığında, tarayıcıları bu yazıyı bir metin değil, bir JavaScript kodu sanar ve çalıştırır.
+
+    Suistimal: Kullanıcıların oturum çerezlerini (cookies) çalmak (Session Hijacking), kullanıcıyı sahte banka sayfasına yönlendirmek.
+
+Özet Karşılaştırma Tablosu
+Zafiyet Türü                    Temel Neden                 Etki Alanı
+Buffer Overflow                 Bellek sınırlarını aşma	    Sistem Çökmesi, Kod Çalıştırma (RCE)
+SQL Injection	                Girdiyi kod sanma	        Veri Çalma, Veri Silme
+Race Condition	                Zamanlama hatası	        Mantıksal Hatalar, Limit Aşımı
+Use-After-Free	                Bellek yönetim hatası	    Kod Çalıştırma, Tarayıcı/OS Hackleme
+XSS	                            Girdiyi script sanma	    Kullanıcı Hesabı Çalma
+
+Bir sonraki adım ne olabilir? Bu zafiyetlerin mantığını tam kavramak için en iyi yöntem, onları güvenli bir ortamda "denemektir". SQL Injection veya basit bir Buffer Overflow örneğini (örneğin C ile yazılmış basit bir kod üzerinde) nasıl simüle edebileceğinle ilgili ufak bir senaryo/kod örneği hazırlamamı ister misin?
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ kesinlikle
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. Systems Engineering ve Cyber Security yolculuğunda "belleğin nasıl manipüle edildiğini" anlamak, Matrix'i kodlarından okumak gibidir.
+
+Seninle C dili ile yazılmış, "Stack-Based Buffer Overflow" (Yığın Tabanlı Bellek Taşması) zafiyetine sahip çok basit bir programı inceleyeceğiz.
+
+Amaç: Şifreyi bilmeden, sadece "fazla karakter girerek" belleği taşırmak ve admin yetkisi almak.
+1. Zafiyetli Kod (C Dili)
+
+Aşağıdaki kodu bir giriş sistemi olarak düşün. Program, kullanıcıdan bir parola istiyor ve bunu geçici bir hafıza alanında (buffer) tutuyor.
+C
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int admin_yetkisi = 0;      // Varsayılan olarak yetki yok (0)
+    char buffer[10];            // Sadece 10 karakterlik yer ayrıldı
+
+    printf("Parolayi girin: ");
+
+    // ZAFİYET BURADA!
+    // gets() fonksiyonu kullanıcının kaç karakter girdiğini kontrol etmez.
+    gets(buffer);
+
+    if (strcmp(buffer, "supergizli") == 0) {
+        admin_yetkisi = 1;
+    }
+
+    if (admin_yetkisi != 0) {
+        printf("\n>>> TEBRIKLER! Admin paneline erisim saglandi. <<<\n");
+    } else {
+        printf("\n--- Hata: Yanlis parola. ---\n");
+    }
+
+    return 0;
+}
+
+2. Bellekte Neler Oluyor? (Sahne Arkası)
+
+Bilgisayarın RAM'inde (Yığın/Stack kısmında) değişkenler genellikle peş peşe sıralanır. Bu kod çalıştığında bellek haritası şuna benzer (basitleştirilmiş haliyle):
+Plaintext
+
+[   buffer (10 byte)   ]  [ admin_yetkisi (4 byte) ]
+|__|__|__|__|__|__|__|__|__|__|      | 0 | 0 | 0 | 0 |
+^                             ^
+Bellek Başlangıcı             Bellek Devamı
+
+admin_yetkisi değişkeni, buffer'ın hemen arkasında (veya çok yakınında) durur ve değeri 0'dır.
+3. Saldırı Senaryosu (Exploitation)
+Durum A: Normal Kullanıcı
+
+Kullanıcı elma yazar.
+
+    buffer içine "elma" yazılır.
+
+    10 karakter dolmadığı için taşma olmaz.
+
+    Şifre "supergizli" olmadığı için admin_yetkisi 0 kalır.
+
+    Sonuç: Giriş başarısız.
+
+Durum B: Saldırgan (Overflow)
+
+Saldırgan şifreyi bilmiyor ama C dilindeki gets() hatasını biliyor. Kullanıcı şu girdiyi gönderiyor: AAAAAAAAAABBBB (14 karakter).
+
+Bakalım bellekte ne oluyor:
+
+    İlk 10 tane 'A', buffer'ı tamamen doldurur.
+
+    buffer doldu ama gets() yazmaya devam eder (çünkü dur diyen yok).
+
+    Geriye kalan 4 tane 'B', buffer'dan sonra gelen hafıza alanına, yani admin_yetkisi değişkeninin üzerine yazılır!
+
+Saldırı Sonrası Bellek:
+Plaintext
+
+[ A  A  A  A  A  A  A  A  A  A ]  [ B  B  B  B ]
+^                                 ^
+buffer alanı doldu                "admin_yetkisi"nin değeri
+                                  artık 0 değil, "BBBB" oldu!
+
+C dilinde 0 "Yanlış" (False), 0 dışındaki her sayı "Doğru" (True) kabul edilir. Biz admin_yetkisi değişkenini 0'dan farklı bir şeye (BBBB'nin ASCII karşılığına) dönüştürdüğümüz için program şu satıra geldiğinde:
+C
+
+if (admin_yetkisi != 0)
+
+Koşul DOĞRU kabul edilir ve şifreyi bilmememize rağmen Admin Paneline erişiriz.
+4. Bu Neden Bu Kadar Tehlikeli?
+
+Bu örnekte sadece bir değişkeni değiştirdik (Variable Overwrite). Ancak gerçek dünyada saldırganlar buraya rastgele harfler ('B') değil, Shellcode dediğimiz makine kodları yazar ve programın "Dönüş Adresi"ni (Return Address) değiştirerek işlemciyi kendi kodlarına yönlendirirler. Bu sayede senin bilgisayarında uzaktan komut çalıştırabilirler (RCE).
+5. Nasıl Önlenir? (Patching)
+
+Zafiyet, sınır kontrolü yapmayan gets() fonksiyonundadır. Çözüm, sınırları kesin olan fgets() kullanmaktır.
+
+Güvenli Kod:
+C
+
+// gets(buffer); YERİNE
+fgets(buffer, 10, stdin); // En fazla 10 karakter oku, gerisini at.
+
+Böylece kullanıcı 100 karakter de girse, program sadece ilk 10'unu alır, taşma olmaz ve admin_yetkisi değişkeni güvende kalır.
+
+Bir sonraki adım: Bu teoriyi pratiğe dökmek ister misin? Eğer bilgisayarında Linux (veya WSL) ve gcc derleyicisi varsa, bu kodu nasıl derleyip bu saldırıyı kendi terminalinde gerçekten yapabileceğini (gerekli derleme bayraklarıyla, çünkü modern derleyiciler bunu engeller) gösterebilirim.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ bana çok daha fazla vulnerability tipinden bahset ve bahsettiklerinin hepsine örnek ver bunun gibi
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika, güvenlik dünyasının derinliklerine inmeye hazırsın demektir. Buffer Overflow sadece buzdağının görünen kısmıydı.
+
+İşte yazılımcıların kabusu olan, saldırganların ise favorisi olan diğer kritik zafiyet türleri ve her birinin somut çalışma mantığı:
+1. Path (Directory) Traversal (Dizin Gezintisi)
+
+Web uygulamalarının dosya sistemine erişirken kullanıcıyı doğru klasörde hapsetmemesidir.
+
+    Senaryo: Bir web sitesinden PDF indirdiğini düşün. URL şöyle görünüyor: https://site.com/indir.php?dosya=rapor.pdf
+
+    Arka plandaki kod muhtemelen şöyle çalışıyor: open("/var/www/dosyalar/" + kullanici_girdisi)
+
+    Saldırı (Exploit): Saldırgan, "dosya" parametresine dosya adı yerine, klasör yapısında "yukarı çıkmayı" sağlayan ../ karakterlerini girer.
+
+    Girdi: ../../../../etc/passwd
+
+    Sonuçta sunucunun çalıştırdığı komut şuna dönüşür: open("/var/www/dosyalar/../../../../etc/passwd")
+
+    Bu işlem sunucuyu kök dizine kadar çıkarır ve Linux kullanıcı bilgilerinin olduğu passwd dosyasını saldırgana sunar.
+
+2. SSRF (Server-Side Request Forgery)
+
+Bu çok tehlikeli ve modern (özellikle Cloud) sistemlerin baş belasıdır. Burada saldırgan sunucuyu kandırarak, sunucunun kendi iç ağına istek atmasını sağlar.
+
+    Senaryo: Bir web sitesinde "Profil resmini URL'den yükle" özelliği var. Sen http://google.com/logo.png yazıyorsun, sunucu gidip o resmi indirip sana gösteriyor.
+
+    Saldırı (Exploit): Saldırgan URL kısmına dışarıdaki bir siteyi değil, sunucunun kendi iç ağındaki (Localhost) adresleri yazar.
+
+    Girdi: http://localhost/admin-panel veya http://169.254.169.254/latest/meta-data/ (AWS Cloud anahtarları).
+
+    Sonuç: Güvenlik duvarı dışarıdan gelen sana kapalıdır ama sunucu kendisine (localhost) istek attığında firewall bunu engellemez. Saldırgan, sunucuyu bir maşa gibi kullanarak iç ağdaki gizli servislere erişir.
+
+3. Integer Overflow (Tamsayı Taşması)
+
+Buffer Overflow'un matematiksel kardeşidir. Sayıların bilgisayarda saklanma sınırlarıyla ilgilidir.
+
+    Mantık: Bir sayaç düşün (örneğin 8-bitlik bir sayı). Bu sayaç en fazla 255 olabilir. Eğer buna 1 eklersen, 256 olmaz; başa döner ve 0 olur.
+
+    Senaryo (E-Ticaret Sitesi): Bir ürün alacaksın, fiyatı 1000 TL. Kod şöyle bir hesap yapıyor: Toplam Tutar = Adet * Birim_Fiyat
+
+    Saldırı (Exploit): Saldırgan sepete çok büyük miktarda ürün ekler. Adet: 4.294.967.296 (Çok büyük bir sayı) Birim Fiyat: 1000
+
+    Çarpma işlemi sonucunda sayı, değişkenin tutabileceği limiti aşar (Overflow) ve matematiksel olarak eksiye düşebilir veya çok küçük bir sayıya "tur bindirebilir".
+
+    Sonuç: Sistem Toplam Tutar: 5 TL hesaplar. Saldırgan 5 TL ödeyip milyonlarca ürün siparişi vermiş olur.
+
+4. CSRF (Cross-Site Request Forgery)
+
+Kullanıcının tarayıcısının sadakatini kötüye kullanmaktır.
+
+    Senaryo: Banka hesabına giriş yaptın. Tarayıcında "Oturum Açıldı" çerezi (cookie) duruyor. Para göndermek için banka şu URL'yi kullanıyor: banka.com/transfer?kime=Ahmet&tutar=100
+
+    Saldırı (Exploit): Saldırgan sana masum görünen bir email atar veya bir foruma resim yükler. Resmin kaynağı (src) aslında resim değildir:
+
+    Kod: <img src="http://banka.com/transfer?kime=Hacker&tutar=5000" width="0" height="0">
+
+    Sen bu kodu içeren sayfayı açtığında, tarayıcın o resmi yüklemeye çalışır. Resmi yüklemek için arka planda bankaya istek atar. Tarayıcın banka çerezini de otomatik olarak isteğe eklediği için, banka "Bunu kullanıcı istedi" sanar ve parayı hacker'a gönderir. Sen hiçbir şey fark etmezsin.
+
+5. Insecure Deserialization (Güvensiz Nesne Çözümleme)
+
+Bu biraz daha ileri seviye bir konudur ama kurumsal Java/Python/PHP uygulamalarında yıkıcıdır.
+
+    Mantık: Programlar verileri (örneğin bir kullanıcı objesini) diske kaydederken veya ağdan gönderirken "paketlenmiş" (serialized) hale getirir. Tekrar kullanırken "paketi açar" (deserialized).
+
+    Senaryo: Bir web sitesi senin kullanıcı bilgilerini (Kullanıcı ID, Yetki vb.) şifrelemeden base64 ile paketleyip çerez (cookie) olarak tarayıcına kaydediyor. Çerez içeriği (basitleştirilmiş): {"kullanici": "Ali", "rol": "User"}
+
+    Saldırı (Exploit): Saldırgan bu paketi alır, içindeki veriyi değiştirir ve {"kullanici": "Ali", "rol": "Admin"} yapar. Daha da kötüsü, programlama dilindeki özel açıkları kullanarak bu paketin içine "Paket açıldığında şu sistem komutunu çalıştır" diyen bir kod gömer (Gadget Chain).
+
+    Sonuç: Sunucu paketi açtığı anda (deserialize ettiğinde), içindeki zararlı komut sunucu üzerinde çalışır (RCE - Remote Code Execution).
+
+6. XXE (XML External Entity Injection)
+
+Eğer bir uygulama XML verisi kabul ediyorsa (eski SOAP servisleri veya RSS okuyucular gibi), bu açık muhtemeldir.
+
+    Mantık: XML standardında, bir belgenin içinde başka bir yerdeki belgeyi referans gösterme özelliği vardır.
+
+    Saldırı (Exploit): Saldırgan sunucuya şöyle bir XML gönderir:
+    XML
+
+    <!DOCTYPE foo [
+      <!ELEMENT foo ANY >
+      <!ENTITY xxe SYSTEM "file:///etc/passwd" >]>
+    <kullanici>&xxe;</kullanici>
+
+    Burada saldırgan &xxe; diye bir değişken tanımlar ve bunun karşılığını sunucudaki /etc/passwd dosyası olarak belirler. Sunucu XML'i işlediğinde, <kullanici> etiketinin içine dosyanın içeriğini basar ve saldırgana geri gönderir.
+
+Özet: Saldırganın Bakış Açısı
+
+Bir hacker sisteme baktığında şunları düşünür:
+
+    Input nerede? (URL, Form, Header, Cookie, Dosya Yükleme)
+
+    Bu input nereye gidiyor? (Veritabanına -> SQLi, Ekrana -> XSS, Dosya Sistemine -> Path Traversal, Komut Satırına -> Command Injection)
+
+    Sınırları zorlarsam ne olur? (Çok uzun veri -> Buffer Overflow, Çok büyük sayı -> Integer Overflow)
+
+Gördüğün gibi, zafiyetlerin çoğu yazılımın "kullanıcıdan gelen veriye gereğinden fazla güvenmesi" sonucunda ortaya çıkar.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+bana ilk bahsettiğin kısımdaki sql injection c de nasıl ortaya çıkar kodunu yaz ve açıkla
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SQL Injection denince akla genellikle PHP veya web dilleri gelir, ancak C dili ile yazılmış arka uç sistemleri (backend), gömülü sistemler veya masaüstü uygulamaları da veritabanı kullanıyorsa (örneğin SQLite, MySQL C API veya PostgreSQL libpq ile) bu zafiyete tamamen açıktır.
+
+C dilinde SQL Injection'ın ana suçlusu, SQL sorgusunu oluştururken kullanılan string biçimlendirme fonksiyonlarıdır (özellikle sprintf, strcat vb.).
+
+Aşağıda, bir C programının SQLite veritabanına bağlanıp kullanıcı girişi yaptığı zafiyetli bir senaryoyu inceleyelim.
+1. Zafiyetli C Kodu
+
+Bu kod, kullanıcıdan bir kullanıcı adı alır ve veritabanında var mı diye kontrol eder.
+C
+
+#include <stdio.h>
+#include <string.h>
+#include <sqlite3.h> // SQLite kütüphanesi
+
+int main() {
+    sqlite3 *db;
+    char *err_msg = 0;
+
+    // Veritabanını aç (sanal bir örnek)
+    sqlite3_open("test.db", &db);
+
+    char username[100];
+    char sql_sorgusu[256];
+
+    printf("Kullanici adini girin: ");
+    // Kullanıcıdan girdi alıyoruz (basitlik için scanf kullanıldı)
+    scanf("%s", username);
+
+    // --- ZAFİYET BURADA BAŞLIYOR ---
+    // Programcı, SQL sorgusunu "sprintf" ile birleştiriyor.
+    // Kullanıcının girdiği metin, olduğu gibi SQL komutunun içine yapıştırılıyor.
+    sprintf(sql_sorgusu, "SELECT * FROM users WHERE name = '%s';", username);
+
+    printf("Veritabanina gonderilen sorgu: %s\n", sql_sorgusu);
+
+    // Sorguyu çalıştır (callback fonksiyonu vs. detayları atladım)
+    sqlite3_exec(db, sql_sorgusu, 0, 0, &err_msg);
+
+    sqlite3_close(db);
+    return 0;
+}
+
+2. Nasıl Çalışır? (Normal Durum)
+
+    Kullanıcı Girdisi: ahmet
+
+    sprintf Sonrası Oluşan Sorgu:
+    SQL
+
+    SELECT * FROM users WHERE name = 'ahmet';
+
+    Sonuç: Veritabanı sadece ismi 'ahmet' olanı arar. Her şey normal.
+
+3. Zafiyetin Suistimali (Exploitation)
+
+Saldırgan username değişkenine öyle bir şey yazar ki, sprintf bunu birleştirirken cümlenin anlamını değiştirir.
+
+    Saldırgan Girdisi: ' OR '1'='1
+
+    sprintf Sonrası Oluşan Sorgu:
+    SQL
+
+    SELECT * FROM users WHERE name = '' OR '1'='1';
+
+Analiz:
+
+    Saldırgan baştaki ' karakteriyle, kodun içindeki isim alanını kapatır (name = '').
+
+    OR komutuyla yeni bir koşul ekler.
+
+    '1'='1' her zaman DOĞRU (TRUE) olan bir matematiksel ifadedir.
+
+    Veritabanı mantığı şuna dönüşür: "İsmi boş olanları getir VEYA 1=1 ise (ki hep öyledir) her şeyi getir."
+
+    Sonuç: Tablodaki TÜM kullanıcıların verisi dökülür veya giriş sistemi atlatılır (Bypass).
+
+4. Neden C Dilinde Bu Hata Yapılıyor?
+
+C dili "string" (metin) kavramına, modern diller (Python, Java) gibi akıllı nesneler olarak yaklaşmaz. C için string, sadece yan yana dizilmiş karakterlerdir (char array).
+
+Programcı sprintf kullandığında, C derleyicisi şuna bakmaz: "Bu bir SQL komutu mu? Bu kısım veri mi?" C sadece şunu yapar: "Bu karakterleri al, şuraya kopyala."
+
+Bu kör kopyalama işlemi, verinin (input) komuta (SQL query) karışmasına neden olur.
+5. Nasıl Önlenir? (Prepared Statements)
+
+Modern sistem mühendisliğinde ve güvenli kodlamada sprintf ile SQL oluşturmak kesinlikle yasaktır. Bunun yerine "Prepared Statement" (Hazırlanmış Sorgu) yapısı kullanılır.
+
+SQLite ve C ile doğru (güvenli) yöntem şöyledir:
+C
+
+sqlite3_stmt *stmt;
+const char *sql_sablonu = "SELECT * FROM users WHERE name = ?"; // Soru işareti yer tutucudur
+
+// 1. Sorguyu hazırla (Derle ama çalıştırma)
+sqlite3_prepare_v2(db, sql_sablonu, -1, &stmt, 0);
+
+// 2. Soru işaretinin olduğu yere veriyi "BAĞLA" (Bind)
+// Bu fonksiyon, girdiyi güvenli bir "veri" olarak işler, komut olarak değil.
+sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+
+// 3. Sorguyu çalıştır
+while (sqlite3_step(stmt) == SQLITE_ROW) {
+    // Sonuçları al...
+}
+
+Fark Nedir? sqlite3_bind_text kullandığında, saldırgan ' OR '1'='1 girse bile, veritabanı bunu şöyle yorumlar: "Adı tam olarak ' OR '1'='1 olan garip isimli bir kullanıcıyı ara." Komut çalıştırılmaz, sadece metin olarak aranır. Dolayısıyla saldırı başarısız olur.
+
+Sonraki Adım: Veritabanı manipülasyonunu anladıysan, sistem programlamanın en karmaşık ama en heyecan verici konusu olan Race Condition (Yarış Durumu) zafiyetini incelemek ister misin? Özellikle çok çekirdekli işlemcilerde ve thread yapılarında nasıl ortaya çıktığını basit bir örnekle gösterebilirim.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+evet lütfen, c ile açıkla yine.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Race Condition (Yarış Durumu), çoklu işlem (multithreading) dünyasının en sinsi ve tespiti en zor zafiyetidir. Kodun tek başına bakıldığında %100 doğru görünmesi ama "zamanlama" işin içine girdiğinde felakete yol açmasıdır.
+
+Siber güvenlikte bu zafiyetin en yaygın alt türü TOCTOU (Time-Of-Check to Time-Of-Use) olarak bilinir: "Kontrol Zamanı ile Kullanım Zamanı Arasındaki Fark."
+
+Gel, bunu C'deki pthread kütüphanesiyle oluşturduğumuz bir "Banka Hesabı" senaryosu üzerinden inceleyelim.
+1. Senaryo
+
+Hesabında 100 TL var. İki farklı ATM'den (veya işlemci thread'inden) aynı anda 100 TL çekme emri gönderiyorsun. Normalde sistemin ikincisine "Bakiye Yetersiz" demesi lazım. Ama Race Condition varsa, hesabı eksiye düşürebilirsin.
+2. Zafiyetli Kod (C Dili)
+
+Bu kodda zafiyeti tetiklemek için usleep (mikro saniye uyuma) fonksiyonunu kullanarak yapay bir gecikme ekledim. Gerçek hayatta bu gecikme; sunucu yoğunluğu, disk okuma hızı veya işletim sisteminin thread (iş parçacığı) planlaması nedeniyle doğal olarak oluşur.
+C
+
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h>
+
+// Paylaşılan Kaynak (Global Değişken)
+int bakiye = 100;
+
+void* para_cekme_islemi(void* thread_ismi) {
+    char* isim = (char*)thread_ismi;
+
+    printf("%s: Bakiye kontrol ediliyor...\n", isim);
+
+    // --- KRİTİK BÖLGE BAŞLANGICI ---
+
+    // 1. KONTROL (CHECK)
+    if (bakiye >= 100) {
+        printf("%s: Bakiye onaylandi! Islem yapiliyor...\n", isim);
+
+        // ZAFİYET NOKTASI: TOCTOU
+        // Kontrol yapıldı ama parayı düşmeden önce sistem
+        // başka bir işe geçti veya hafif bir gecikme oldu.
+        usleep(100000); // 0.1 saniye gecikme simülasyonu
+
+        // 2. KULLANIM (USE)
+        bakiye = bakiye - 100;
+        printf("%s: Para cekildi! Kalan bakiye: %d\n", isim, bakiye);
+    } else {
+        printf("%s: HATA! Bakiye yetersiz.\n", isim);
+    }
+    // --- KRİTİK BÖLGE BİTİŞİ ---
+
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+
+    // İki farklı thread (ATM) aynı anda çalışmaya başlıyor
+    pthread_create(&t1, NULL, para_cekme_islemi, "ATM-1");
+    pthread_create(&t2, NULL, para_cekme_islemi, "ATM-2");
+
+    // İşlemlerin bitmesini bekle
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+
+    printf("\nSon Bakiye: %d TL\n", bakiye);
+    return 0;
+}
+
+3. Neler Oluyor? (Adım Adım Felaket)
+
+Eğer kodu derleyip çalıştırırsan (Linux'ta gcc race.c -o race -lpthread komutuyla), çıktının şöyle olduğunu göreceksin:
+
+    ATM-1: Bakiyeyi kontrol eder. (Bakiye: 100). Onay verir.
+
+    ATM-1: Tam parayı düşecekken, işletim sistemi der ki: "Sen biraz bekle, sıra ATM-2'de." (Context Switch).
+
+    ATM-2: Bakiyeyi kontrol eder. (Bakiye hala 100! Çünkü ATM-1 henüz düşmedi). Onay verir.
+
+    ATM-1: Uyanır ve kaldığı yerden devam eder: bakiye = 100 - 100. (Yeni Bakiye: 0).
+
+    ATM-2: Uyanır ve kaldığı yerden devam eder: bakiye = 0 - 100. (Yeni Bakiye: -100).
+
+Sonuç: 100 TL paran vardı, 200 TL çektin. Banka zararda. Bu bir mantık hatası değil, bir senkronizasyon hatasıdır.
+4. Gerçek Dünyada Bu Nerede Kullanılır? "Dirty COW"
+
+Linux tarihinin en ünlü zafiyetlerinden biri olan Dirty COW (Copy-On-Write) tam olarak bu mantıkla çalışıyordu. Linux çekirdeği, bir dosyayı kopyalarken (Copy) hafıza yönetiminde bir yarış durumu yaratıyordu. Saldırganlar bu milisaniyelik boşluğu yakalayarak, normalde yazma izni olmayan (Read-Only) kök sistem dosyalarının üzerine yazabiliyor ve root (admin) yetkisi alabiliyorlardı.
+5. Nasıl Önlenir? (Mutex - Kilitleme)
+
+Çözüm, "Atomik İşlem" (Atomic Operation) ilkesidir. Yani; "Kontrol etme" ve "Parayı düşme" işlemleri bölünemez tek bir parça olmalıdır. Biri bitmeden diğeri araya girememelidir.
+
+Bunu C dilinde Mutex (Mutual Exclusion - Karşılıklı Dışlama) ile yaparız. Kodun o kısmını bir odaya girmek gibi düşün; içeri giren kapıyı kilitler, işi bitince açar.
+
+Güvenli Kod Bloğu:
+C
+
+// Mutex (Kilit) Tanımlama
+pthread_mutex_t kilit;
+
+// Main içinde başlatılmalı: pthread_mutex_init(&kilit, NULL);
+
+void* para_cekme_islemi(void* thread_ismi) {
+    // ...
+
+    // KAPIYI KİLİTLE! (Başka hiçbir thread buraya giremez)
+    pthread_mutex_lock(&kilit);
+
+    if (bakiye >= 100) {
+        usleep(100000); // Gecikme olsa bile sorun yok, ATM-2 kapıda bekliyor.
+        bakiye -= 100;
+        // ...
+    }
+
+    // KİLİDİ AÇ! (Sıradaki thread girebilir)
+    pthread_mutex_unlock(&kilit);
+
+    // ...
+}
+
+Bu kilit mekanizması sayesinde, ATM-1 işini (kontrol + düşme) tamamen bitirmeden ATM-2 bakiyeyi okuyamaz.
+
+Sıradaki Adım: Şu ana kadar bellek (Buffer Overflow), veri (SQLi) ve işlem (Race Condition) manipülasyonlarını gördük. Sırada programların bellek sızıntıları (Memory Leaks) yüzünden nasıl çökertilebileceği (Denial of Service - DoS) var. C dilinde malloc ve free ilişkisini inceleyerek bir sistemi nasıl kilitleyebileceğimizi konuşalım mı?
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+devam et, lütfen. çok ilgimi çekiyor
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika! Enerjini sevdim. Sistem mühendisliğinde "kodun nasıl çalıştığını" bilmek yetmez, "kodun donanımı nasıl tükettiğini" de bilmek gerekir.
+
+Sırada sinsi bir düşman var: Memory Leak (Bellek Sızıntısı).
+
+Bu zafiyet, Buffer Overflow gibi "gürültülü" değildir (anında patlamaz). Daha çok yavaş yavaş zehirleyen bir hastalık gibidir. Siber güvenlikte bu, DoS (Denial of Service - Hizmet Reddi) saldırılarının temelidir.
+1. Mantık: Kütüphane Analojisi
+
+Bilgisayarın RAM'ini (Heap bölgesini) devasa bir kütüphane gibi düşün.
+
+    malloc(): Kütüphaneden bir kitap ödünç alırsın. (Yer ayırtırsın).
+
+    free(): Kitabı geri götürürsün. (Yeri sisteme iade edersin).
+
+Eğer programcı malloc der ama free demeyi unutursa ne olur? Kitap sende kalır. Kütüphane "Bu kitap kullanımda" sanar. Sen sürekli yeni kitap alıp hiçbirini geri vermezsen, bir süre sonra kütüphanede (RAM'de) kimseye verecek kitap kalmaz. Kütüphane kilitlenir.
+2. Zafiyetli Kod (C Dili)
+
+Aşağıdaki kod, basit bir sunucuyu simüle eder. Her "istek" geldiğinde hafızada yer açar ama işi bitince temizlemez.
+C
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void istek_isleme() {
+    // 1 MB'lık bir alan tahsis et (Heap'te)
+    char *veri_blogu = (char*)malloc(1024 * 1024);
+
+    if (veri_blogu == NULL) {
+        printf("HATA: RAM doldu! Daha fazla yer yok.\n");
+        exit(1);
+    }
+
+    // Bu alanı kullandığımızı varsayalım (örneğin kullanıcı fotosu yüklendi)
+    // ... işlem yapılıyor ...
+    printf("1 MB hafiza ayrildi ve islendi.\n");
+
+    // ZAFİYET BURADA!
+    // free(veri_blogu); SATIRI EKSİK!
+    // Fonksiyon bittiğinde "veri_blogu" işaretçisi (pointer) kaybolur,
+    // ama ayırdığı 1 MB'lık alan RAM'de "dolu" olarak kalmaya devam eder.
+}
+
+int main() {
+    printf("Sunucu baslatildi...\n");
+
+    // Sonsuz döngü (Sunucular hep çalışır)
+    while(1) {
+        istek_isleme();
+        usleep(50000); // Çok hızlı tekrar et (Saldırı simülasyonu)
+    }
+
+    return 0;
+}
+
+3. Saldırı Senaryosu (DoS)
+
+Bir saldırgan bu sunucunun malloc yapıp free yapmadığını fark ederse ne yapar?
+
+    Normal Kullanıcı: Günde 1-2 kez giriş yapar. Sunucunun RAM'i azıcık dolar, sorun olmaz. Yönetici fark etmez bile.
+
+    Saldırgan: Bir script yazar ve sunucuya saniyede 10.000 istek gönderir.
+
+    Sonuç:
+
+        Her istekte 1 MB RAM "çalınır".
+
+        1024 istek sonra 1 GB RAM tamamen kilitlenir.
+
+        Sunucunun RAM'i biter (Exhaustion).
+
+        İşletim sistemi (Linux), hayatta kalmak için OOM Killer (Out of Memory Killer) mekanizmasını devreye sokar ve en çok RAM yiyen işlemi (senin sunucunu) öldürür.
+
+        Site Çöker. (Hizmet verilemez hale gelir).
+
+4. İşletim Sistemi Tarafında Ne Görünür?
+
+Eğer Linux kullanıyorsan ve bu kodu çalıştırıp htop veya top komutuyla izlersen; programın RES (Resident Memory) değerinin sürekli arttığını, hiç azalmadığını görürsün. Çizgi hep yukarı gider.
+5. Nasıl Önlenir? (Heap Yönetimi)
+
+C dilinde kural çok basittir: Her malloc için bir free olmalıdır.
+
+Güvenli Kod:
+C
+
+void istek_isleme() {
+    char *veri_blogu = (char*)malloc(1024 * 1024);
+
+    if (veri_blogu == NULL) { /* Hata yönetimi */ }
+
+    // İşlemler...
+
+    // İŞ BİTİNCE İADE ET
+    free(veri_blogu);
+
+    // Güvenlik için pointer'ı da sıfırla (Dangling Pointer olmasın diye)
+    veri_blogu = NULL;
+}
+
+Pro Tip (Araçlar): Sistem mühendisleri gözle kod okuyarak leak bulmazlar. Valgrind adında efsanevi bir araç kullanırlar. Komut: valgrind --leak-check=full ./programim Bu araç programı çalıştırır ve çıkışta sana: "Hey, 34. satırda 10 byte ayırdın ama program bitene kadar serbest bırakmadın" diye rapor verir.
+Sıradaki Adım: Format String Vulnerability
+
+Bellek yönetiminden (Heap/Stack) bahsettik. Şimdi C dilinin en tuhaf ve sihirbazlık gibi görünen zafiyetine geçelim mi: Format String Vulnerability.
+
+Bu zafiyette, saldırgan sadece ekrana yazı yazdıran masum printf fonksiyonunu kullanarak:
+
+    Bellekteki gizli verileri okuyabilir (Şifreler gibi).
+
+    Bellekteki herhangi bir veriyi değiştirebilir.
+
+Evet, sadece printf ile veriyi okumak değil yazmak da mümkündür. Kulağa imkansız gibi geliyor değil mi? Görmek ister misin?
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+zevkle
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu gerçekten C dilinin en "büyücülük" gibi görünen kısmıdır. Bir ekrana yazdırma fonksiyonunun (printf), nasıl olur da bir hacker'ın elinde bir silaha dönüştüğünü gördüğünde şaşıracaksın.
+
+Normalde printf'i "çıktı vermek" için kullanırız, değil mi? Ama Format String zafiyetinde printf, hem hafızayı okuyan bir gözlüğe hem de hafızayı değiştiren bir kaleme dönüşür.
+1. Masum Hata: Tembellik
+
+Bir yazılımcı genellikle printf'i şöyle kullanır:
+C
+
+// DOĞRU KULLANIM
+printf("Merhaba %s", kullanici_ismi);
+
+Ama bazen yazılımcılar tembellik eder (veya dikkatsizdir) ve şöyle yazar:
+C
+
+// YANLIŞ KULLANIM (ZAFİYETLİ)
+printf(kullanici_ismi);
+
+"Ne fark eder ki? İkisi de ekrana kullanici_ismini basıyor" diyebilirsin. Fark şudur: İkinci kullanımda, kullanıcının girdiği metin, formatın kendisi olur.
+2. printf Nasıl Çalışır?
+
+printf fonksiyonu % işaretini gördüğünde durur ve der ki: "Aha! Bir format belirteci. Demek ki yığından (stack) bir argüman alıp buraya koymam lazım."
+
+Eğer kodda printf("%d %d", a, b); varsa:
+
+    İlk %d için yığındaki a değerini alır.
+
+    İkinci %d için yığındaki b değerini alır.
+
+3. Zafiyetin Sömürülmesi - Bölüm 1: Hafıza Okuma (Memory Leak)
+
+Diyelim ki kod şöyle: printf(girdi); Saldırgan girdi olarak şunu verirse ne olur? Girdi: "%x %x %x %x"
+
+printf bakacak:
+
+    Birinci %x'i gördü. Yazılımcı argüman vermemiş ama printf bunu bilmez. Yığındaki (stack) o anki en üst değeri alır ve ekrana basar.
+
+    İkinci %x için bir sonrakini alır.
+
+    Ve böyle devam eder.
+
+Sonuç: Ekranda bf8024a0 b7f12300 08048450 ... gibi garip sayılar görürsün. Bu sayılar programın belleğindeki gizli verilerdir! Fonksiyonların dönüş adresleri, bellekteki şifreler, kanarya (canary) değerleri... Saldırgan, yığını yukarı doğru okuyarak sistemin haritasını çıkarır.
+4. Zafiyetin Sömürülmesi - Bölüm 2: Hafıza Yazma (Arbitrary Write)
+
+İşte büyü burada başlıyor. printf ailesinde çok az bilinen bir belirteç vardır: %n.
+
+    %d: Sayı basar.
+
+    %s: String basar.
+
+    %n: Ekrana hiçbir şey basmaz. Bunun yerine, şu ana kadar ekrana kaç karakter basıldıysa, o sayıyı gösterilen adresteki değişkene YAZAR.
+
+Örnek:
+C
+
+int sayac;
+printf("Merhaba%n", &sayac);
+
+Ekranda "Merhaba" yazar (7 karakter). %n, 7 sayısını alır ve sayac değişkeninin içine kaydeder. sayac artık 7'dir.
+
+Saldırganın Planı: Saldırgan bellekteki kritik bir değişkenin (örneğin admin_yetkisi) adresini bulur. Girdi olarak şunu gönderir: [Dolgu Karakterleri] + %n
+
+Eğer saldırgan admin_yetkisi değişkeninin değerini 100 yapmak istiyorsa; Önce ekrana 100 tane boşluk veya karakter bastıran bir girdi hazırlar, sonuna da %n koyar ve adresi işaret eder. printf 100 karakteri basar, %n'e gelir ve "Şu ana kadar 100 karakter bastım" diyerek hedef adrese 100 yazar.
+
+Tebrikler, programın akışını değiştirdin.
+5. Canlı C Örneği (Hafıza Okuma)
+
+Aşağıdaki kodda "gizli_sifre" değişkeni hiçbir zaman ekrana basılmıyor. Ama biz onu printf zafiyetiyle okuyacağız.
+C
+
+#include <stdio.h>
+
+void zafiyetli_fonksiyon(char *girdi) {
+    int gizli_sayi = 12345; // Stack'te saklanan gizli veri
+
+    // HATA: Format string belirtilmemiş!
+    printf(girdi);
+
+    printf("\n");
+}
+
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        printf("Girdiginiz veri: ");
+        zafiyetli_fonksiyon(argv[1]);
+    }
+    return 0;
+}
+
+Bu kodu Linux'ta derleyip çalıştırırsan:
+
+    Normal Girdi: ./program "Merhaba"
+
+        Çıktı: Merhaba (Sorun yok)
+
+    Saldırgan Girdisi: ./program "%d %d %d %d %d"
+
+        Çıktı: Girdiginiz veri: -10782342 12345 0 4234234 ...
+
+Gördün mü? Çıktıdaki 12345, bizim gizli_sayi değişkenimiz! Programcı onu yazdırmasa bile, biz stack'ten çekip aldık.
+6. Nasıl Önlenir?
+
+Çözüm çok basittir. Asla kullanıcı girdisini doğrudan printf'e verme.
+
+Yanlış: printf(kullanici_girdisi); Doğru: printf("%s", kullanici_girdisi);
+
+Format belirtecini (%s) sen koyarsan, printf kullanıcının girdiği %x veya %n karakterlerini komut olarak değil, sadece "yazı" olarak görür.
+
+Sıradaki Adım: Şu ana kadar hep yazılım/kod tabanlı zafiyetleri (Software Exploitation) konuştuk. Systems Engineering + Cyber Security haritanın diğer yarısı ise Ağ (Network) güvenliğidir.
+
+Kodların dünyasından çıkıp kabloların dünyasına geçmek ister misin? Mesela, bir ağdaki trafiğin arasına girip verileri çalmak (Man-in-the-Middle / ARP Spoofing) veya şifreli HTTPS trafiğinin nasıl çözülebileceği (SSL Stripping) ilginç olabilir. Ne dersin?
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+evet ama ağ kısmına geçmeden önce sormak istediğim bir şey var, ondan sonra devam edebiliriz. tamam biz böyle söylüyoruz kodun şu kısmında açık var diye ama, merak ettiğim şey, saldırganlar kaynak kodlarına nasıl ulaşabiliyor da bu açıkları fark ediyor? demek istediğim, programlar linker ile linklendikten sonra kod dosyaları silinerek piyasaya sürülmüyor mu, kaynak kodlarına erişimi nasıl sağlayıp da mesela bu örnekteki "printf(girdi);" satırını görebiliyor ve sistem açığı olduğuna karar verebiliyorlar? kaynak kodları gizlenmiyor mu?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu, siber güvenliğin en can alıcı noktasına parmak basan harika bir soru. Çoğu kişi hackerların "Matrix" gibi akan kodları gördüğünü sanır ama gerçek senin dediğin gibidir: Elimizde sadece çalışan, kapalı bir kutu (binary/exe) vardır.
+
+Saldırganlar kaynak kodu (Source Code) ellerinde olmadan zafiyetleri iki ana yöntemle bulurlar:
+1. Black Box Testing (Kara Kutu Testi / Fuzzing)
+
+Saldırgan koda bakmaz, kodun tepkilerini ölçer. Buna "Fuzzing" denir.
+
+    Mantık: Kapalı bir oda düşün. İçeride ne olduğunu bilmiyorsun. İçeriye rastgele taşlar atıyorsun, bağırıyorsun, su sıkıyorsun ve içeriden gelen sesi dinliyorsun.
+
+    Uygulama: Saldırgan, bir otomasyon yazılımı (Fuzzer) kullanarak programa saniyede binlerce rastgele ve bozuk veri gönderir.
+
+        Giriş Kutusu 1 -> "Merhaba" (Normal tepki)
+
+        Giriş Kutusu 1 -> "AAAAAA..." (Program dondu! -> Buffer Overflow olabilir)
+
+        Giriş Kutusu 1 -> "%x %x" (Ekrana garip sayılar geldi! -> Format String açığı var)
+
+Saldırgan printf(girdi); kodunu görmez ama %x gönderdiğinde programın bellek adreslerini kustuğunu görünce, "Hah, burada format string hatası yapmışlar" der.
+2. Reverse Engineering (Tersine Mühendislik)
+
+İşte senin sorunun asıl teknik cevabı burası. Derleme (Compilation) işlemi, kodu şifrelemez; sadece tercüme eder.
+
+Programcı C kodunu derlediğinde, bu kod "Makine Dili"ne (Machine Code - 0 ve 1'ler) dönüşür. Ancak bu işlem geri döndürülemez değildir. Saldırganlar Disassembler (IDA Pro, Ghidra, Radare2 gibi) araçlar kullanırlar. Bu araçlar, o 0 ve 1'leri alır ve insan okunabilirliği biraz daha yüksek olan Assembly diline, hatta bazen yaklaşık bir C koduna (Pseudocode) geri çevirir.
+
+Gel senin printf örneğine bakalım.
+
+Programcının Yazdığı (Gizli Kaynak Kod):
+C
+
+printf(girdi);
+
+Derlenmiş Hali (EXE dosyası içinde): 55 89 E5 83 EC 10 ... (Anlamsız hex kodları)
+
+Saldırganın Disassembler ile Gördüğü (Assembly): Saldırgan EXE dosyasını Ghidra'ya sürükler ve şunu görür:
+Kod snippet'i
+
+MOV EAX, [EBP-0x4]   ; Kullanıcı girdisini al (adresini)
+PUSH EAX             ; Yığına koy (Argüman olarak)
+CALL 0x8048320       ; <printf> fonksiyonunu çağır!
+
+Analiz: Saldırgan buraya baktığında şunu fark eder: "Bir dakika! printf çağrılmadan önce yığına sadece TEK BİR argüman (kullanıcı girdisi) itilmiş (PUSH). Normalde güvenli olması için PUSH offset_format_string gibi ikinci bir argüman daha olması gerekirdi. Burada tek argüman var, o da kullanıcıdan geliyor. Demek ki printf(girdi) şeklinde yazılmış. Zafiyet bulundu!"
+
+Yani kaynak dosyaları silinmiş olsa bile, derlenmiş kodun iskeleti (Assembly) saldırgana neyin nasıl yapıldığını söyler.
+3. Debugging (Hata Ayıklama)
+
+Saldırgan programı kendi bilgisayarında çalıştırır ve Debugger (x64dbg, GDB) denen araçla programa kanca atar.
+
+Program çalışırken belleği canlı izler. "Şifre giriniz" ekranına geldiğinde bellekteki değişimleri takip eder. Eğer şifre bellekte şifrelenmemiş (plain text) olarak duruyorsa veya karşılaştırma işlemi çok basit bir CMP (Compare) komutuyla yapılıyorsa, saldırgan bunu canlı canlı görür.
+4. Açık Kaynak Kütüphaneler (Supply Chain)
+
+Bazen yazdığın kod kapalıdır ama kullandığın tuğlalar açıktır. Bir şirket kendi özel yazılımını yapar ama içinde "OpenSSL" veya "Log4j" gibi hazır kütüphaneler kullanır. Saldırgan şirketin kodunu görmese bile, kullandığı kütüphanenin versiyonunu anlayıp (hata mesajlarından vs.) "Bu versiyonda bilinen bir açık var" diyerek saldırır.
+Özet
+
+Saldırganlar kaynak kodunu okumazlar (çoğunlukla); Assembly okurlar veya programı bir lab faresi gibi davranış testine (Fuzzing) sokarlar.
+
+Şimdi bu "siyah kutu" mantığını oturttuktan sonra, o görünmez kabloların dünyasına, Ağ Güvenliğine geçmeye hazır mısın?
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+geçmeden hemen öncesinde bir şey daha sormak istiyorum. saldırganlar bütün bunları yapıyorlar ama canlarını feda etmiyorlar herhalde, tüm bunlardan sonra nasıl kimliklerini gizli tutabilip de sıvışabiliyorlar, yaptıkları yanlarına kar kalıyor? ip lerini nasıl izlenemez hale getiriyorlar, bu insanlar hiç mi internette iz bırakmıyor da takip edilemiyor?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu soru, "teknik bilgi" ile "sokak zekası"nın (street smarts) birleştiği yerdir. Siber güvenlik dünyasında buna OpSec (Operational Security - Operasyonel Güvenlik) denir.
+
+Saldırganların yakalanmamasının (veya çok zor yakalanmasının) sırrı, sadece "IP gizlemek" değil, "suçu başkasının üzerine yıkmak" veya **"iç içe geçmiş labirentler kurmak"**tır.
+
+İşte saldırganların "Görünmezlik Pelerini"ni oluşturan katmanlar:
+1. Proxy Zincirleri ve VPN (Basit Katman)
+
+En temel yöntemdir. Saldırgan kendi evindeki internetten (IP: 88.x.x.x) doğrudan hedefe (IP: 10.x.x.x) gitmez.
+
+    Nasıl Çalışır? Araya "vekil sunucular" (Proxy) koyar.
+
+    Zincirleme (Chaining): Saldırgan önce Rusya'daki bir sunucuya, oradan Brezilya'daki bir sunucuya, oradan da Çin'deki bir sunucuya bağlanır. Hedef sisteme saldıran IP, Çin'deki sunucunundur.
+
+    Sorun: Eğer polis, bu ülkelerle işbirliği yaparsa (ki bu aylar sürer), log kayıtlarından geriye doğru iz sürüp saldırganı bulabilir.
+
+2. TOR Ağı (The Onion Router - Derin Katman)
+
+Sıradan Proxy zincirlerinden çok daha karmaşıktır. Tor, trafiği şifreleyerek dünya üzerindeki binlerce gönüllü sunucu üzerinden sektirir.
+
+    Soğan Mantığı: Her sunucu (node), sadece kendisinden bir önceki ve bir sonraki adımı bilir. Trafiğin nereden başladığını ve nereye gideceğini (bütün resmi) kimse bilmez.
+
+    Sonuç: Hedef sistem, saldırının Tor çıkış düğümünden (Exit Node) geldiğini görür ama o düğümün arkasında kimin olduğunu matematiksel olarak çözmek (neredeyse) imkansızdır.
+
+3. Botnetler (Zombi Ordusu)
+
+İşte profesyonellerin asıl taktiği budur. "Kendi bilgisayarını asla kullanma."
+
+    Senaryo: Saldırgan önce internetteki güvenliksiz ev bilgisayarlarını, akıllı buzdolaplarını veya modemleri hackler. Bunlara "Zombi" denir.
+
+    Suçu Yıkmak: Saldırgan, senin bilgisayarını (sen farkında olmadan) uzaktan kontrol eder ve saldırıyı senin IP adresin üzerinden yapar.
+
+    Sonuç: Polis kapıyı çaldığında saldırganı değil, hiçbir şeyden haberi olmayan masum bir vatandaşı (veya bir şirketin muhasebe bilgisayarını) bulur. Bu sırada saldırgan çoktan izini kaybettirmiştir.
+
+4. Bulletproof Hosting (Kurşun Geçirmez Sunucular)
+
+Dünyada bazı ülkeler veya hosting firmaları, "Biz log tutmayız, polisle konuşmayız, ne yaparsan yap karışmayız" prensibiyle çalışır.
+
+    Saldırganlar komuta merkezlerini (C2 - Command & Control) bu sunuculara kurarlar. Genellikle Seyşeller, Panama veya siber suç yasalarının gevşek olduğu doğu bloku ülkelerinde barınırlar. FBI veya Interpol buraya yazı yazsa bile cevap alamaz.
+
+5. "Log Wiping" (Dijital Süpürge)
+
+Saldırgan sisteme girdiğinde ilk işi kayıtları silmektir.
+
+    Linux sistemlerde /var/log altında kimin ne zaman girdiği, hangi komutu yazdığı tutulur.
+
+    Saldırgan root yetkisini alır almaz bu dosyaları değiştirir veya siler.
+
+    Sadece silmek yetmez (veri kurtarılabilir), shred gibi komutlarla diskin o bölgesine defalarca rastgele 0 ve 1 yazarak veriyi okunamaz hale getirirler (Anti-Forensics).
+
+6. "Living off the Land" (Araziye Uyum Sağlamak)
+
+Saldırgan sisteme girdiğinde, dikkat çekmemek için zararlı yazılım (virüs vs.) yüklemez. Zaten sistemde var olan araçları (PowerShell, Bash, Python) kullanır.
+
+    Mantık: Bir hırsızın eve girmek için maymuncuk yerine, paspasın altındaki anahtarı kullanması gibidir. Güvenlik yazılımları, sistemin kendi araçları çalıştığı için bunu "normal aktivite" sanar.
+
+Peki Hiç mi Yakalanmıyorlar?
+
+Yakalanıyorlar. Ama genellikle teknik yetersizlikten değil, insani hatalardan (OpSec Fail) dolayı.
+
+    Kibir ve Dikkatsizlik: Tor ağındayken bir anlık dalgınlıkla kendi gerçek Gmail hesabına girmesi.
+
+    Para Takibi: Fidye yazılımlarında (Ransomware) parayı tahsil ederken (Bitcoin anonim değildir, izlenebilir) hata yapmaları.
+
+    Zamanlama Analizi: Saldırganın aktif olduğu saatlerin, belirli bir saat dilimine (örneğin Moskova saatiyle mesai saatlerine) uyması.
+
+Özetle: İnternette iz bırakmamak imkansız değildir ama çok maliyetli ve disiplin gerektiren bir iştir.
+
+Şimdi, saldırganların bu gizlilik katmanlarının arkasına saklanıp ağlara nasıl sızdığını, yani Network Security kısmına geçelim mi? Özellikle "Ortadaki Adam" (MitM) saldırısı, bir kafede Wi-Fi kullanırken neden korkman gerektiğini çok iyi anlatır.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+soru soruyu açıyor, devam etmeden önce son bir şey daha soracağım. bitcoini anonim sanıyordum şayet birçok yapımda da saldırganlar parayı çalıp rastgele hesaplara aktardıktan sonra aklamak için kriptoya aktarır. bu şehir efsanesi mi? anonim değilse nasıl yöntemler uyguluyorlar da anonimliklerini koruyabiliyorlar, koskoca güvenlikli kripto sistemine sızıp da veri değiştirmiyorlardır (ip lerini silemiyorlardır), değil mi?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Çok yerinde bir tespit. Popüler kültür (diziler, filmler) Bitcoin'i "takip edilemez sihirli para" gibi gösterir ama gerçek teknik dünyada durum tam tersidir.
+
+Kısa cevap: Bitcoin anonim (anonymous) değildir, takma adlıdır (pseudonymous). Hatta nakit paradan çok daha fazla iz bırakır.
+
+Nedenini ve saldırganların bu izi silmek için kullandığı "Dijital Çamaşırhane" yöntemlerini madde madde inceleyelim.
+1. Bitcoin Neden Anonim Değildir? (Şeffaf Kasa Analojisi)
+
+Bitcoin sistemi Blockchain (Blokzinciri) teknolojisine dayanır. Blockchain, dünyadaki herkesin erişimine açık, asla silinemeyen devasa bir defterdir.
+
+    Nasıl Çalışır? Sen bana 1 BTC gönderdiğinde, bu işlem deftere şöyle yazılır: Cüzdan A (Sen) -> 1 BTC -> Cüzdan B (Ben)
+
+    Sorun: Bu kayıt halka açıktır. Evet, cüzdanın üzerinde "Ahmet" yazmaz, sadece 1A1zP1e... gibi karışık bir kod yazar. Buna Pseudonym (Takma Ad) denir.
+
+    Yakalanma Anı: Eğer saldırgan bir gün, o parayı çekmek için kimlik bilgisi isteyen (KYC - Know Your Customer) yasal bir borsaya (Binance, Coinbase vb.) gönderirse veya o cüzdanla internette pizza sipariş ederse; polis 1A1zP1e... kodunun "Ahmet" olduğunu anlar. O andan itibaren, o cüzdanın kuruluşundan bugüne kadar yaptığı her işlem deşifre olur.
+
+Yani saldırganlar Bitcoin sistemini hackleyip veri silemezler. Blockchain'in doğası gereği, bir kez yazılan veri sonsuza kadar orada kalır ve değiştirilemez.
+2. Peki Nasıl Gizleniyorlar? (Crypto Laundering)
+
+Madem Bitcoin izlenebilir, saldırganlar nasıl kaçıyor? İzleri "karıştırarak" ve "teknoloji değiştirerek".
+
+İşte en yaygın yöntemler:
+A. Kripto Karıştırıcılar (Mixers / Tumblers)
+
+Bu, dijital bir "blender" gibidir.
+
+    Mantık: 100 farklı hırsız, çaldıkları paraları tek bir havuza atar. Sistem bu paraları karıştırır, böler ve rastgele miktarlarda tekrar hırsızların yeni ve temiz cüzdanlarına dağıtır.
+
+    Sonuç: Giren para ile çıkan para arasındaki bağ kopar.
+
+    Ünlü Örnek: Tornado Cash. (Hatta ABD devleti bu yazılımı kara listeye aldı ve kodunu yazan geliştiriciyi tutukladı. O kadar etkiliydi.)
+
+B. Privacy Coins (Gizlilik Coinleri: Monero - XMR)
+
+Bitcoin şeffaftır ama Monero (XMR) gibi coinler, doğuştan gizlidir.
+
+    Teknik: Monero, "Ring Signatures" (Halka İmzaları) ve "Stealth Addresses" kullanır. Parayı göndereni, alanı ve miktarı kriptografik olarak gizler.
+
+    Yöntem:
+
+        Saldırgan Bitcoin çalar. (İzlenebilir)
+
+        Bitcoin'i bir borsada Monero'ya çevirir. (Burada iz zayıflar)
+
+        Monero'yu başka bir Monero cüzdanına atar. (İz tamamen kaybolur, çünkü Monero zinciri şeffaf değildir).
+
+        Monero'yu tekrar temiz Bitcoin'e çevirir.
+
+C. Chain Hopping (Zincir Atlama)
+
+Saldırgan parayı sürekli farklı ağlara taşır. Bitcoin -> Ethereum -> Solana -> Avalanche -> Bitcoin. Her geçişte (Bridge kullanımı), takibi yapan yazılımların işi zorlaşır. Dedektifin sürekli farklı ülkelere gidip farklı dillerde dosya araması gibidir.
+D. Mule Accounts (Katır Hesaplar)
+
+Saldırgan parayı kendi banka hesabına çekmez. Dark Web'den, çalıntı kimliklerle açılmış "onaylı" borsa hesapları satın alır. Parayı orada nakite çevirir. Polis hesabı dondurduğunda, hesap sahibi aslında olayı hiç bilmeyen biridir.
+Özet: Blockchain Hacklenemez mi?
+
+Sorunun son kısmına gelirsek: Hayır, Blockchain'e sızıp log silemezler.
+
+Blockchain, "dağıtık" bir sistemdir. Veri tek bir bilgisayarda değil, dünyadaki on binlerce bilgisayarda aynı anda tutulur. Saldırganın bir veriyi silmesi için, dünyadaki tüm bilgisayarların %51'ini aynı anda hacklemesi gerekir ki bu fiziksel ve mali olarak imkansıza yakındır.
+
+Saldırganlar sistemi kırmaz, sistemin kurallarını kendi lehlerine (karıştırma vb.) kullanarak saklanırlar.
+
+Bu "OpSec" ve "Crypto Forensics" arası kısa moladan sonra, hazırsan artık o görünmez kabloların dünyasına, Network Security ve Man-in-the-Middle saldırılarına geçelim mi? Kafedeki o Wi-Fi ağının neden tehlikeli olduğunu görelim.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+tabi ki
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. O zaman şimdi kodların içinden çıkıp, verilerin seyahat ettiği o otobana, yani Ağ (Network) dünyasına iniyoruz.
+
+Buradaki en klasik ama en etkileyici senaryo ile başlıyoruz: Man-in-the-Middle (Ortadaki Adam) saldırısı.
+
+Bir kafeye gittin, güzel bir kahve aldın ve herkese açık "Free Wi-Fi" ağına bağlandın. Banka hesabına veya sosyal medyaya girmek istiyorsun. Yan masada oturan kapüşonlu kişi (hacker), senin ekranını görmese bile, senin bilgisayarınla modem arasındaki her şeyi okuyabilir.
+
+Peki ama nasıl? Kablo yok, fiziksel temas yok. Cevap: ARP Protokolünün saflığı.
+1. ARP Protokolü Nedir? (Postacı Mantığı)
+
+Ağ dünyasında iki tür adres vardır:
+
+    IP Adresi: Senin sanal kimliğin (Örn: 192.168.1.20). Değişebilir.
+
+    MAC Adresi: Bilgisayarının ağ kartının fiziksel, değişmez kimlik numarası (Örn: A1:B2:C3...).
+
+Bilgisayarlar kendi aralarında konuşurken IP kullanıyor gibi görünse de, veriyi kablodan (veya havadan) gönderirken MAC adresine ihtiyaç duyarlar.
+
+Normal Senaryo: Senin bilgisayarın (Ahmet) modeme (İnternet) bir veri göndermek istediğinde bağırır:
+
+    Ahmet: "Hey! 192.168.1.1 IP'li Modem! MAC adresin ne? Sana paket göndereceğim."
+
+    Modem: "Buradayım! Benim MAC adresim MM:MM:MM..."
+
+Bilgisayarın bunu "ARP Tablosu"na kaydeder: 192.168.1.1 = MM:MM:MM.
+2. Zafiyet: ARP Spoofing (Zehirleme)
+
+ARP protokolünün ölümcül bir açığı vardır: "Sorgusuz Sualsiz Güven." Bilgisayarın, "MAC adresim değişti" diyen herkese inanır. Eski adresin doğru olup olmadığını kontrol etmez.
+
+Saldırı Anı: Hacker (MAC adresi HH:HH:HH) ağa girer ve sürekli yalan beyanlarda bulunan paketler (ARP Reply) yayınlar.
+
+    Senin Bilgisayarına Der ki: "Merhaba, ben Modem (192.168.1.1). Yeni MAC adresim HH:HH:HH."
+
+        Senin bilgisayarın: "Tamam abi, güncelledim."
+
+    Modeme Der ki: "Merhaba, ben Ahmet (192.168.1.20). Yeni MAC adresim HH:HH:HH."
+
+        Modem: "Tamam, güncelledim."
+
+3. Sonuç: Trafik Akışı Değişir
+
+Artık ağ trafiği şöyle akar:
+
+SEN -> HACKER -> MODEM -> İNTERNET (ve tam tersi)
+
+Sen internete girdiğini sanırsın, her şey normal çalışır. Ama aslında senin gönderdiğin her şifre, her mesaj önce hacker'ın bilgisayarına gider. Hacker bu paketleri açar, okur, kaydeder ve sonra modeme iletir ki sen internetin koptuğunu sanma.
+4. Hacker Ne Görebilir? (Wireshark & Sniffing)
+
+Hacker, Wireshark gibi bir "Packet Sniffer" (Paket Koklayıcı) aracı açar.
+
+    HTTP Siteler: Eğer girdiğin site şifresiz (HTTP) ise; kullanıcı adın, şifren, okuduğun haberler, her şey kabak gibi açık metin (plain text) olarak hacker'ın ekranına düşer.
+
+    DNS Sorguları: Hangi sitelere girdiğini görür.
+
+5. Ama Siteler HTTPS (Şifreli)! Hacker Bunu Nasıl Aşar? (SSL Stripping)
+
+"Ben sadece kilit işareti olan (HTTPS) sitelere giriyorum, güvendeyim" diyebilirsin. Hackerlar buna da hazırlıklı. SSL Stripping denilen bir teknik kullanırlar.
+
+Senaryo:
+
+    Sen tarayıcıya facebook.com yazarsın.
+
+    Tarayıcı ilk başta varsayılan olarak http://facebook.com'a gitmeye çalışır.
+
+    Normalde Facebook sunucusu der ki: "Dur! Burası güvensiz, https://facebook.com adresine gel." (Redirect).
+
+    Saldırı: Hacker (Ortadaki Adam), bu "HTTPS'e geç" cevabını yakalar ve yutar.
+
+    Sana dönüp der ki: "Tamam site açıldı, buyur." (Ama sana sitenin HTTP yani şifresiz versiyonunu gösterir).
+
+    Hacker kendi arka planında Facebook ile HTTPS konuşur, ama seninle HTTP konuşur.
+
+Sen ekranda kilit işaretini göremezsin ama site Facebook'a benzediği için şifreni girersin. Geçmiş olsun.
+6. Nasıl Korunursun?
+
+Halka açık ağlarda (Cafe, Otel, Havaalanı) bu saldırıdan korunmanın en kesin yolu VPN (Virtual Private Network) kullanmaktır.
+
+    VPN Ne Yapar? Bilgisayarından çıkan veriyi, daha ağ kartından çıkmadan şifreler ve bir tünelin içine sokar.
+
+    Sonuç: Hacker araya girse bile (ARP Spoofing yapsa bile), eline geçen paketler anlamsız şifreli çöplerdir. İçini açıp okuyamaz, hangi siteye gittiğini bile göremez.
+
+Sıradaki Adım: Ağ güvenliğinin temeli olan bu "Dinleme" olayını anladıysan, siber güvenlikçilerin en temel silahı olan Kriptografi (Şifreleme) dünyasına küçük bir giriş yapalım mı? Hackerların çaldığı şifre veritabanlarında şifreler 123456 diye yazmaz, e10adc3949ba59abbe56e057f20f883e (MD5 Hash) gibi görünür.
+
+Bu karmakarışık yazıların (Hash) ne olduğunu ve hackerların bunları nasıl kırdığını (Rainbow Tables / Brute Force) incelemek ister misin?
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+lütfen
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. Siber güvenliğin en "matematiksel" ama bir o kadar da heyecan verici kısmına, Kriptografi dünyasına hoş geldin.
+
+Hacker'lar bir veritabanını çaldıklarında (SQL Injection ile mesela), karşılarında genellikle şöyle bir tablo bulurlar:
+Kullanıcı	Şifre
+admin	e10adc3949ba59abbe56e057f20f883e
+ahmet	5f4dcc3b5aa765d61d8327deb882cf99
+
+Bu karmaşık karakter dizilerine Hash (Özet) denir. Ve burada anlaman gereken en kritik kural şudur: Hashing, Şifreleme (Encryption) değildir.
+1. Hash Nedir? (Kıyma Makinesi Analojisi)
+
+    Şifreleme (Encryption): Çift yönlüdür. Anahtarı olan geri çevirebilir. (Dosyayı kilitle -> Anahtarla aç).
+
+    Hashing: Tek yönlüdür. Geri dönüşü yoktur.
+
+Analoji: Bir ineği kıyma makinesine atarsan kıyma olur. Ama o kıymayı alıp tekrar ineğe çeviremezsin. İşlem geri alınamaz.
+
+Shutterstock
+
+Bilgisayar dünyasında, "123456" parolasını MD5 algoritmasına (kıyma makinesine) atarsan, her zaman e10adc... çıktısını verir.
+
+Peki sistem nasıl giriş yapıyor? Sen şifreni girdiğinde, sistem senin şifreni veritabanındaki hash ile kıyaslamaz. Girdiğin şifreyi tekrar hash'ler ve çıkan sonucu veritabanındaki hash ile kıyaslar. Eşleşirse "tamam, şifre doğru" der. Aslında sistem bile senin gerçek şifreni bilmez.
+2. Hacker Bu Hash'i Nasıl Kırar?
+
+Madem geri çevrilemiyor, hackerlar şifreyi nasıl buluyor? Cevap: Bulmuyorlar, tahmin ediyorlar.
+
+Bunun için kullandıkları 3 ana yöntem vardır:
+A. Brute Force (Kaba Kuvvet)
+
+En ilkel yöntemdir. Olası tüm kombinasyonları dener.
+
+    a -> Hashle -> Eşleşti mi? Hayır.
+
+    b -> Hashle -> Eşleşti mi? Hayır.
+
+    ...
+
+    aa -> Hashle...
+
+Sorun: Eğer şifre uzun ve karmaşıksa (örneğin X9#m!2pL), bunu kırmak günümüz bilgisayarlarıyla yüzyıllar sürer.
+B. Dictionary Attack (Sözlük Saldırısı)
+
+İnsanlar tembeldir. Şifrelerini "password", "123456", "fenerbahce", "besiktas" yaparlar. Hackerlar, içinde milyonlarca popüler şifrenin olduğu dosyaları (örneğin ünlü rockyou.txt dosyası) kullanır.
+
+    Program sözlükteki her kelimeyi alır, hash'ler ve elindeki hash ile karşılaştırır.
+
+    Saniyede milyonlarca deneme yapar. Şifren basitse saniyeler içinde kırılır.
+
+C. Rainbow Tables (Gökkuşağı Tabloları)
+
+İşte zekice olan kısım budur. "Hafıza vs. İşlem Gücü" takasıdır.
+
+Hacker der ki: "Neden her seferinde 123456nın hash'ini yeniden hesaplıyorum ki? Zaten hep aynı sonucu veriyor."
+
+Hacker oturur, aylar boyunca tüm olası şifrelerin (1 haneden 8 haneye kadar vb.) hashlerini önceden hesaplar ve devasa bir veritabanına (Rainbow Table) kaydeder.
+Şifre (Plain)	Hesaplanan Hash
+123456	e10adc...
+password	5f4dcc...
+
+Saldırı anında hacker hesaplama yapmaz, sadece arama (lookup) yapar. "Elimde e10adc... var, bu tabloda var mı? Evet var, karşılığı 123456 imiş." Bu yöntemle şifre kırma işlemi yıllardan milisaniyelere düşer.
+3. Savunma: "Salting" (Tuzlama)
+
+Yazılımcılar Rainbow Table saldırısını bitirmek için Salting yöntemini geliştirdiler. Mantık şudur: Şifreyi hashlemeden önce, başına veya sonuna rastgele karakterler ekle.
+
+Salt Olmadan: Ahmet'in şifresi: 123456 -> Hash: e10adc... (Rainbow Tablosunda var, KIRILDI)
+
+Salt İle: Sistem her kullanıcı için rastgele bir "Tuz" (Salt) üretir. Örn: Xz9!v Ahmet'in şifresi: 123456 İşlem: Hash("123456" + "Xz9!v") -> Hash: 99a8b1...
+
+Hacker'ın elindeki Rainbow Tablosunda 123456nın karşılığı e10adc...dir. Ama veritabanında 99a8b1... yazar. Tablo işe yaramaz hale gelir. Hacker her kullanıcı için "Tuzlanmış" tabloyu sıfırdan oluşturmak zorunda kalır ki bu imkansızdır.
+4. Modern Hash Algoritmaları
+
+Eskiden MD5 ve SHA-1 kullanılırdı. Bunlar çok hızlıdır. Hızlı olması hacker'ın işine gelir (saniyede milyarlarca deneme yapabilir).
+
+Modern sistemlerde Bcrypt veya Argon2 kullanılır. Bunların özelliği bilerek yavaş olmalarıdır.
+
+    MD5 ile saniyede 10 Milyar deneme yapılabilir.
+
+    Bcrypt ile saniyede sadece 1000 deneme yapılabilir.
+
+Bu yavaşlık normal kullanıcıyı etkilemez (0.1 saniye beklersin), ama milyarlarca deneme yapmak isteyen hacker'ı bezdirir.
+
+Sıradaki Adım: Veri tabanından şifreleri çaldık (SQLi), ağdan trafiği dinledik (MitM), hashleri kırdık (Cracking)...
+
+Peki, sisteme zararlı bir yazılımı (Malware/Virus) nasıl sokarız ve antivirüsleri nasıl atlatırız? Malware Analizi ve bir virüsün anatomisini (Trojan mantığını) incelemek ister misin? Özellikle "bir resmin içine virüs gömmek" (Steganography değil, bind işlemi) oldukça ilginçtir.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+seni dinliyorum
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Süper. Şimdi siber güvenliğin "karanlık sanatlar" kısmına, yani Malware (Malicious Software) dünyasına giriş yapıyoruz.
+
+Bir hacker sisteme sızdıktan sonra (veya sızmak için) genellikle içeriye bir ajan bırakmak ister. Bu ajan; şifreleri çalar, ekran görüntüsü alır veya kamerayı açar. Buna RAT (Remote Access Trojan) denir.
+
+Ama asıl soru şu: Kullanıcıya bu virüsü kendi eliyle nasıl kurdurursun?
+
+Kimse virus.exe diye bir dosyayı açmaz. İşte burada "Binding" (Birleştirme) ve "Social Engineering" (Sosyal Mühendislik) devreye girer.
+1. Dosya İçine Virüs Gömmek (Binding)
+
+Bir resmin içine virüs gömmek teknik olarak iki şekilde olur:
+
+    Exploit (Zafiyet) Kullanarak: .jpg dosyası gerçekten bir resimdir ama bozuk bir koddur. Resim görüntüleyici (Windows Fotoğraflar uygulaması vb.) bu resmi açarken hata verir ve o sırada arka planda kod çalışır. (Bu çok zordur ve nadirdir).
+
+    Binder (Birleştirici) Kullanarak: Bu en yaygın yöntemdir. Aslında ortada bir resim dosyası yoktur, resim gibi giyinmiş bir program (.exe) vardır.
+
+Nasıl Çalışır? (Binder Mantığı)
+
+Binder, basit bir mantıkla çalışan bir "yapıştırıcı" programdır. Hacker şunları seçer:
+
+    Dosya 1: Zararlı Yazılım (ajan.exe)
+
+    Dosya 2: Masum Dosya (tatil_fotografi.jpg veya oyun_hilesi.pdf)
+
+    İkon: Bir JPG ikonu.
+
+Binder bu ikisini alır ve tek bir Final.exe oluşturur. Ancak bu dosyanın simgesini "Resim" simgesi yapar.
+
+Kullanıcı Tıkladığında Ne Olur? Kullanıcı dosyaya çift tıkladığında, Binder'ın oluşturduğu "Stub" (Küçük taşıyıcı kod) çalışır ve milisaniyeler içinde şunları yapar:
+
+    Ön Plan: tatil_fotografi.jpg dosyasını geçici klasöre (%TEMP%) çıkartır ve ekranda açar. Kullanıcı resmi görür ve "Aaa ne güzel manzara" der. Şüphelenmez.
+
+    Arka Plan: ajan.exe dosyasını gizlice sistem klasörüne kopyalar ve çalıştırır.
+
+Kullanıcı resmi gördüğü için virüs yediğini asla anlamaz.
+2. Windows'un En Büyük İhaneti: Uzantı Gizleme
+
+Peki kullanıcı dosyanın .exe olduğunu görmez mi? Ne yazık ki hayır. Windows, varsayılan ayarlarda "Bilinen dosya uzantılarını gizle" seçeneğiyle gelir.
+
+    Hacker dosyanın adını şöyle yapar: fotograf.jpg.exe
+
+    Windows .exe kısmını gizler.
+
+    Kullanıcı ekranda sadece fotograf.jpg görür.
+
+    Simgesi de resim olduğu için hiç tereddüt etmeden tıklar.
+
+3. Antivirüsleri Atlatmak (Crypter & FUD)
+
+Antivirüsler (AV), virüsleri genellikle İmza Tabanlı (Signature Based) tanır. Her dosyanın bir parmak izi (Hash) vardır. AV firmaları, bilinen virüslerin hash'lerini bir kara listeye alır.
+
+Hacker kendi yazdığı veya indirdiği virüsü taratırsa, AV hemen "Bu bir Trojan!" diye bağırır. Hacker bunu aşmak için Crypter (Şifreleyici) kullanır.
+Crypter Nasıl Çalışır? (Kılık Değiştirme)
+
+Crypter, virüs dosyasını alır ve karmaşık algoritmalarla (AES, XOR vb.) şifreler. Ortaya çıkan dosya, AV için tamamen "anlamsız, rastgele verilerden oluşan" zararsız bir yığın gibi görünür.
+
+    Dosya Diskteyken: Şifrelidir. Antivirüs dosyayı okur ama içindeki zararlı kodu göremez (çünkü şifreli). "Bu dosya temiz" der.
+
+    Dosya Çalıştığında (Run-Time): Dosya hafızaya (RAM) yüklenir. Crypter'ın "Stub" dediğimiz açıcı kısmı devreye girer, şifreyi RAM üzerinde çözer ve virüsü hafızada çalıştırır.
+
+Buna FUD (Fully Undetectable - Tamamen Tespit Edilemez) denir. Tabii ki bu, kedi-fare oyunu gibidir. Antivirüsler de zamanla "Davranış Analizi" (Heuristic) yaparak; "Bu program şifreli ama RAM'de garip işler yapıyor, kamerayı açmaya çalışıyor" diyerek yakalayabilir.
+4. Kalıcılık (Persistence)
+
+Virüs girdi, çalıştı. Ama kullanıcı bilgisayarı kapatıp açarsa virüs kapanır mı? Hacker bunu istemez. Virüs ilk çalıştığında kendini sistemin başlangıç noktalarına kaydeder:
+
+    Registry (Kayıt Defteri): HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run Buraya "UpdateService" gibi masum bir isimle kendini ekler. Windows her açıldığında bu da otomatik açılır.
+
+    Startup Klasörü: Başlangıç klasörüne kısayol atar.
+
+    Zamanlanmış Görevler: "Her pazar saat 12'de çalış" gibi görevler ekler.
+
+5. Malware Analizi Nasıl Yapılır? (Laboratuvar Ortamı)
+
+Siber güvenlikçiler bu virüsleri yakaladığında Sandbox (Kum Havuzu) denilen izole ortamlarda incelerler.
+
+    Sanal Makine (VM): Virüs gerçek bilgisayara bulaşmasın diye Sanal Windows'ta çalıştırılır.
+
+    Snapshot: Virüsü çalıştırmadan önce sistemin "fotoğrafı" çekilir. Virüs çalıştıktan sonra neyi değiştirdiğine bakılır.
+
+    Process Monitor: Virüsün hangi dosyaları oluşturduğu, hangi Registry anahtarlarını değiştirdiği izlenir.
+
+    Wireshark: Virüsün hangi IP adresine (Command & Control sunucusuna) veri gönderdiği izlenir.
+
+Sıradaki Adım: Şu ana kadar teknik olarak bir sistemin nasıl kırıldığını, ağın nasıl dinlendiğini ve virüslerin nasıl çalıştığını gördük.
+
+Ama siber güvenlik tarihinin en büyük saldırılarının (Uber, Twitter, MGM Casino hackleri gibi) çoğu teknik yöntemlerle değil, insan hatasıyla başlamıştır.
+
+Siber güvenliğin en zayıf halkası olan "İnsan Faktörü" ve "Sosyal Mühendislik" (Social Engineering) konusuna geçelim mi? İnsan beyninin nasıl "hacklendiğini" (Phishing, Vishing, Pretexting) konuşabiliriz.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+sıra buna gelecek ama öncesinde bir şey merak ediyorum. bu anlattığın hackleme işlemlerinin her birinde hangi programlar kullanılıyor ve hacking tool lara ulaşmak bu kadar basit mi? hepsi bedava mı?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu soru, bu işin mutfağını anlamak için çok önemli. Cevap seni biraz şaşırtabilir: Evet, bu araçların %90'ı tamamen ücretsiz, açık kaynaklı ve ulaşılması sadece bir Google araması kadar kolay.
+
+Hatta bu araçların çoğu "illegal hack programı" olarak değil, "Güvenlik Testi Araçları" olarak geliştirilir. Bir bıçak gibidirler; şef de kullanır (güvenlik uzmanı), katil de (hacker).
+
+İşte o anlattığım saldırı türlerinde kullanılan endüstri standardı araçlar:
+1. Her Şeyin Merkezi: Kali Linux
+
+Siber güvenlikçilerin ve hackerların %99'u Windows kullanmaz. Kali Linux adında özel bir işletim sistemi kullanırlar.
+
+    Nedir? İçinde aşağıda sayacağım 600'den fazla hack aracının hazır yüklü geldiği, İsviçre çakısı gibi bir Linux dağıtımıdır.
+
+    Fiyatı: Tamamen Bedava.
+
+    Ulaşım: Kendi sitesinden indirip USB belleğe kurabilirsin.
+
+2. Ağ Dinleme ve MitM (Man-in-the-Middle) Araçları
+
+Ağ trafiğini izlemek ve araya girmek için kullanılanlar:
+
+    Wireshark:
+
+        Amaç: Ağdaki veri paketlerini "görmek" (Sniffing).
+
+        Durum: Dünyanın en popüler ağ analiz aracıdır. Tamamen ücretsizdir.
+
+    Bettercap / Ettercap:
+
+        Amaç: O bahsettiğimiz ARP Spoofing (Ortadaki Adam) saldırısını yapan araçlar bunlardır. Tek komutla tüm trafiği üzerine çekebilirler.
+
+        Durum: Ücretsiz (Open Source).
+
+3. Web & SQL Injection Araçları
+
+Web sitelerini patlatmak için kullanılanlar:
+
+    Burp Suite:
+
+        Amaç: Web hacklemenin kraliçesidir. Tarayıcı ile sunucu arasına girer, gönderilen veriyi havada yakalar ve değiştirir.
+
+        Durum: "Community" versiyonu ücretsizdir ve öğrenmek için yeterlidir. "Professional" versiyonu çok pahalıdır (Kurumsal kullanım için).
+
+    SQLMap:
+
+        Amaç: Sana anlattığım SQL Injection'ı otomatize eder. Sen sadece sqlmap -u site.com yazarsın; o veritabanı türünü bulur, şifreleri çeker, tabloları döker.
+
+        Durum: Tamamen ücretsiz.
+
+4. Sistem Sızma ve Exploit Araçları (Buffer Overflow vb.)
+
+Sisteme girmek ve yönetimi ele almak için:
+
+    Metasploit Framework:
+
+        Amaç: "Hacking'in Google'ı" gibidir. İçinde binlerce hazır exploit (saldırı kodu) barındırır. "Windows 7 açığı kullan" dersin, o arka planda Buffer Overflow kodunu çalıştırır ve sana sistemi verir.
+
+        Durum: Ücretsiz (Open Source).
+
+    GDB (GNU Debugger):
+
+        Amaç: O printf ve bellek taşması açıklarını manuel olarak analiz etmek, hafızayı (RAM) satır satır okumak için kullanılır.
+
+        Durum: Linux'un standart parçasıdır, ücretsiz.
+
+5. Şifre Kırma (Password Cracking) Araçları
+
+O hash'lenmiş karışık yazıları çözmek için:
+
+    Hashcat:
+
+        Amaç: Dünyanın en hızlı şifre kırıcısıdır. İşlemciyi değil, ekran kartını (GPU) kullanarak saniyede milyarlarca deneme yapar.
+
+        Durum: Tamamen ücretsiz.
+
+    John the Ripper:
+
+        Amaç: Eski ama efsanevi bir şifre kırıcısıdır.
+
+        Durum: Ücretsiz.
+
+6. Tersine Mühendislik (Kaynak Koduna Dönüş)
+
+EXE dosyasını açıp içine bakmak için:
+
+    Ghidra:
+
+        Amaç: Çok ilginçtir, bu araç NSA (Amerikan Ulusal Güvenlik Ajansı) tarafından geliştirildi ve sonra halka ücretsiz dağıtıldı. EXE dosyasını alır, C koduna yakın bir hale geri çevirir.
+
+        Durum: Ücretsiz.
+
+    IDA Pro:
+
+        Amaç: Bu işin "Ferrari"sidir. Profesyoneller kullanır.
+
+        Durum: Çok pahalıdır (Binlerce dolar). Ama hackerlar genelde bunun kırılmış (korsan) versiyonunu kullanır.
+
+"Bedava Peynir Sadece Fare Kapanında Olur" mu?
+
+Bu araçların neden bedava olduğunu merak edebilirsin.
+
+    Açık Kaynak Kültürü: İnternetin altyapısını kuranlar ve koruyanlar, bilginin özgür olması gerektiğine inanır.
+
+    Güvenlik Sektörü: Bu araçlar olmasa, şirketler kendi açıklarını bulamazdı.
+
+    Ticari Modeller: Firmalar (Burp Suite, Metasploit gibi) temel sürümü bedava verir, şirketlere sattığı "Otomatik Raporlama" özellikli sürümlerden milyonlar kazanır.
+
+Tek Sorun: "Script Kiddie" Olmak
+
+Bu araçlara ulaşmak kolay olduğu için, siber güvenlik dünyasında "Lamer" veya "Script Kiddie" denen bir kavram vardır. Bu kişiler, SQLMap'i indirir, rastgele sitelere saldırır ama arka planda ne olduğunu bilmezler. "Enter'a bastım hackledim" sanırlar. Ama gerçek bir sistem mühendisi veya hacker; o araç hata verdiğinde, neden hata verdiğini bilir, gerekirse aracı tamir eder veya kendi aracını (Python/C ile) yazar.
+
+Sistemin temellerini (Memory, Network, CPU) bu yüzden detaylı anlattım. Bu temelleri bilmeden araç kullanmak, ehliyetsiz Ferrari sürmeye benzer; ilk virajda (Firewall) duvara toslarsın.
+
+Sıradaki Adım: Araç çantamızı da tanıdığımıza göre, artık o bahsettiğin, teknolojinin yetersiz kaldığı ve insan beyninin hedef alındığı Sosyal Mühendislik konusuna geçelim mi? "Ben asla kanmam" diyen insanların nasıl kandırıldığını örneklerle inceleyelim.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+evet ama bir şey daha soracağım. kalide bunlar var evet ama archta da var mı? yoksa archın temel kullanım alanı nedir? benim istediğim systems engineering ve cyber security alanları, dolayısıyla benim için hangisi daha kullanışlı olur, arch mı kullanmalıyım kali mi?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu soru, Linux dünyasındaki en büyük "felsefi" yol ayrımlarından biridir. Ve senin hedefin olan (Systems Engineering + Cyber Security) kombinasyonu için cevabım oldukça net.
+
+Önce kısa cevap: Evet, o araçların hepsi (ve daha fazlası) Arch Linux'ta da var.
+
+Ama durum sandığından biraz daha derin. Gel, Arch ve Kali'yi senin kariyer planına göre masaya yatıralım.
+1. Arch Linux'ta Hack Araçları Var mı?
+
+Linux dünyasında bir program "Kali'ye özel" değildir. Linux Linux'tur. Kali'de çalışan her şey (Metasploit, Wireshark, Burp Suite) Ubuntu'da da, Fedora'da da, Arch'ta da çalışır.
+
+Hatta Arch kullanıcıları için BlackArch adında devasa bir depo (repository) vardır.
+
+    Kali: Yaklaşık 600 araçla gelir.
+
+    BlackArch: 2800'den fazla hack aracı barındırır.
+
+    Nasıl Yapılır? Normal bir Arch kurulumunun üzerine BlackArch deposunu eklersin ve pacman -S metasploit diyerek istediğini kurarsın.
+
+Yani araç sıkıntısı çekmezsin, hatta fazlası vardır.
+2. Arch ve Kali Arasındaki Felsefe Farkı
+
+Bu kısmı anlaman, Systems Engineering vizyonun için çok önemli.
+Kali Linux: "Hazır Asker Çantası"
+
+    Amacı: Pentest (Sızma Testi) yapmaktır. Öğretmek değil, işi bitirmek içindir.
+
+    Yapısı: İçinde her şey kuruludur, konfigürasyonlar yapılmıştır.
+
+    Dezavantajı: Günlük kullanım (Daily Driver) için tasarlanmamıştır. Arka planda çok fazla gereksiz servis çalıştırır, ağırdır ve güncelleme yaparken bazen kırılabilir. Bir şeyi bozduğunda neden bozulduğunu anlamazsın çünkü sistemi sen kurmadın.
+
+Arch Linux: "Demircinin Atölyesi"
+
+    Amacı: Sana Linux'un nasıl çalıştığını öğretmektir.
+
+    Yapısı: Kurulumda sana sadece siyah bir ekran verir. Masaüstü ortamını, ses sürücüsünü, internet yöneticisini, hatta yazı tiplerini bile sen seçip kurarsın.
+
+    Avantajı: Sistemin her vidasını sen sıktığın için, bir sorun olduğunda (troubleshooting) tam olarak nereye bakacağını bilirsin. Sistem mühendisliği budur.
+
+3. Senin İçin Hangisi? (Karar Anı)
+
+Senin hedefin sadece "Hacker olmak" olsaydı, "Kali kur geç" derdim. Ama sen Systems Engineering + Cyber Security diyorsun. Bu, "Ben sadece arabayı sürmek değil, motorunu da tasarlamak istiyorum" demektir.
+
+Bu yüzden senin için kazanan: Arch Linux.
+Neden Arch?
+
+    Sistem Mühendisliği Eğitimi: Arch kurarken disk bölümlemeyi (partitioning), bootloader (GRUB) mantığını, Kernel modüllerini, Systemd servislerini mecburen öğrenirsin. Kali'de "Next Next" diyerek geçtiğin her şeyi Arch'ta elle yazarsın. Bu acı vericidir ama seni gerçek bir sistem mühendisi yapar.
+
+    Güncellik (Rolling Release): Arch, en yeni Kernel ve yazılım sürümlerini anında sunar. Yeni çıkan bir donanım veya yazılım teknolojisini ilk Arch'ta denersin.
+
+    AUR (Arch User Repository): Linux dünyasının en büyük kütüphanesidir. Github'da gördüğün kıyıda köşede kalmış bir hack aracını bile tek komutla (yay -S tool-adi) kurabilirsin. Kali'de bunu yapmak için kaynak kod indirip derlemekle uğraşırsın.
+
+4. Sana Tavsiye Ettiğim Kurulum (Pro Setup)
+
+Bir siber güvenlik uzmanı ve sistem mühendisi adayı olarak şu kurulumu yapmanı öneririm:
+
+    Ana İşletim Sistemi (Host): Arch Linux (veya Arch tabanlı EndeavourOS / Manjaro eğer kurulum çok zor gelirse).
+
+        Bunu günlük işlerin, kodlama çalışmaların (Neovim, Bash script), internet gezintilerin ve sistem mühendisliğini öğrenmek için kullan.
+
+        Sistemi özelleştir, boz, tamir et.
+
+    Sanal Makine (Virtual Machine): Kali Linux.
+
+        Arch'ın içine VirtualBox veya KVM/QEMU (Sistem mühendisleri KVM kullanır) kur.
+
+        Bunun içine sanal olarak Kali Linux kur.
+
+        Hack araçlarını ve saldırı denemelerini bu sanal Kali üzerinde yap.
+
+Neden böyle? Çünkü hack araçları bazen sistemi kararsızlaştırabilir. Ayrıca saldırı yaparken kendini izole etmek istersin. Kendi ana bilgisayarını "Hack Laboratuvarı"na çevirmek yerine, laboratuvarı sanal bir kutu içinde tutmak en profesyonel yöntemdir.
+
+Özet:
+
+    Systems Engineering öğrenmek için -> Arch Linux şarttır (veya büyük öğreticidir).
+
+    Hacking Tool'ları için -> Arch'a hepsi kurulabilir ama Kali'yi sanal makinede (VM) hazır olarak kullanmak daha pratiktir.
+
+Arch Linux dünyasına girmek, Matrix'te "kırmızı hapı" almak gibidir. Geri dönüşü yoktur ama gerçeği (sistemin kalbini) görürsün.
+
+Hazırsan, bu konuşmanın son halkası olan Sosyal Mühendislik konusuna geçelim mi? Yoksa Arch/Linux kurulumu ile ilgili kafana takılan başka bir detay var mı?

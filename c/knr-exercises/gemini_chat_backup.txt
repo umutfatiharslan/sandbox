@@ -1,0 +1,1345 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+hayir goz gore gore intihara gidemem sektorun icinde olan cok fazla kisi web kodunu cursor gibi ai lar yapabiliyor dolayisiyla web alani bitti diyor baska bir alan secmeliyim ilgimi cekebilecek maasi global anlamda cok yuksek ve webden daha anlamli programlar yapan bir alan secmek istiyorum webin konsepti de cok basit gelmeye basladi. pratikte daha kullanisli olacak bir sey ogrenmek istiyorum, hani kodlamayi fonksiyonel anlamda tatmin edecek bir sey icin yapmis olayim, application programming gibi. butun bunlardan ayri olarak, data science fikri nasil? maasi yuksek mi ve beni isteklerim dogrultusunda tatmin eder mi sence
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Endişeni çok iyi anlıyorum ve bu oldukça rasyonel bir korku. "Sektörün içindekiler" haklı: Standart, "boilerplate" dediğimiz, sadece veri gösterip veri alan basit web sitelerini artık AI (Cursor, v0, Devin vb.) saniyeler içinde yapıyor. Eğer hedefiniz "bir butona tıklayınca form açılan" siteler yapmaksa, evet, o alan daralıyor.
+
+Siz "kodlamayı fonksiyonel anlamda tatmin edecek", "bir uygulama (application) ortaya çıkaracak" ve "AI'ın kolayca el atamayacağı" derinlikte bir alan istiyorsunuz.
+
+Data Science fikrini analiz edelim ve sonra size "Application Programming" başlığı altında AI'a karşı çok daha dirençli ve "Mühendislik" hazzı yüksek alternatifleri sunayım.
+
+📉 Seçenek 1: Data Science (Veri Bilimi)
+"Maaşı yüksek mi ve beni tatmin eder mi?"
+
+Maaş: Globalde çok yüksektir. Hatta ortalama bir Web Developer'dan genellikle daha yüksek başlar.
+
+AI Etkisi: AI burayı da vuruyor (AutoML araçları), ama yorumlama ve karmaşık modelleme yeteneği hala insana muhtaç.
+
+Sizi Tatmin Eder mi? (KRİTİK NOKTA):
+
+Yazılım Geliştirme Değildir: Data Science, "Application Programming" (Uygulama Geliştirme) değildir. Bir .exe dosyası, bir mobil uygulama ya da çalışan bir sistem inşa etmezsiniz.
+
+İşin Doğası: İşin %80'i veriyi temizlemek (Data Cleaning), %20'si model kurmaktır. Kod yazmaktan çok İstatistik ve Matematik (Lineer Cebir, Olasılık) ile uğraşırsınız.
+
+Çıktı: Ürününüz "çalışan bir program" değil, bir "rapor", bir "olasılık değeri" veya bir "model"dir.
+
+Karar: Eğer "Ben bir sistem inşa etmek, çarkların döndüğünü görmek istiyorum" diyorsanız, Data Science sizi sıkabilir. Data Science, mühendislikten ziyade akademik araştırmaya ve analize yakındır.
+
+🚀 Seçenek 2: Systems Programming (Sistem Programlama) & High-Performance Computing
+Eğer "Web basit geliyor" ve "Fonksiyonel tatmin istiyorum" diyorsanız, asıl gitmeniz gereken yer burasıdır. Burası Web'in "bittiği" değil, Web'in ve AI'ın üzerinde çalıştığı zemini inşa eden yerdir.
+
+Bu alan, AI'ın kod yazmakta en çok zorlandığı (çünkü donanım kısıtlamaları ve bellek yönetimi hatayı affetmez) alandır.
+
+1. Rust ve Modern Sistem Mimarisi
+Dünyanın en çok kazanan ve en aranan yazılımcıları şu an Rust bilenlerdir.
+
+Ne Yaparsınız?
+
+Kendi veritabanı motorunuzu yazarsınız.
+
+Kripto para borsalarının "matching engine"lerini (saniyede milyon işlem yapan motor) yazarsınız.
+
+AI'ın üzerinde çalıştığı o devasa sunucu altyapılarını kurarsınız.
+
+Tarayıcı motoru (Browser Engine) veya Oyun Motoru geliştirirsiniz.
+
+Neden Tatmin Eder? Web'deki gibi "renk değişti mi" diye bakmazsınız. "Bellek sızıntısı var mı?", "Bu işlem 3 milisaniyeden 1 milisaniyeye nasıl düşer?" diye bakarsınız. Tam bir mühendisliktir.
+
+Maaş: Globalde zirvededir (Remote olarak 120k$ - 200k$ bandı normaldir).
+
+2. Machine Learning Engineering (MLE) - (Data Science Değil!)
+Data Scientist "modeli tasarlar", ML Engineer ise o modelin "çalışan bir uygulamaya" dönüşmesini sağlar.
+
+Ne Yaparsınız? Data Scientist'in matematiksel olarak kurduğu modeli alır, Python/C++ ile devasa sistemlerde çalışacak, milyonlarca kullanıcıya cevap verecek bir yazılım mimarisine dönüştürürsünüz.
+
+Farkı: Hem "Application Programming" hazzı vardır hem de yapay zeka alanındadır.
+
+📱 Seçenek 3: Native Mobile Application Development (Swift / Kotlin)
+"Application Programming" dediniz, bu tanıma en çok uyan, elle tutulur alan budur.
+
+Platformlar: iOS (Swift) veya Android (Kotlin). (Flutter/React Native değil, Native!)
+
+Neden?
+
+Telefonun donanımına (kamera, GPS, jiroskop, NPU - Neural Processing Unit) hükmedersiniz.
+
+Web siteleri "internet yoksa" çalışmaz ama iyi bir Native App, cihazın gücünü kullanarak internet olmadan da harikalar yaratabilir.
+
+AI Etkisi: Web kadar hızlı taklit edilemiyor çünkü mobil platformların (Apple/Google) SDK'leri ve kuralları çok sıkı ve sürekli değişiyor. AI burada daha çok hata yapıyor.
+
+Tatmin: Yazdığınız kodu cebinizde taşırsınız. Markete koyarsınız, insanlar indirir. "Ben yaptım" hazzı en yüksek alandır.
+
+🏆 Benim Önerim: "High-Level Backend & Cloud Native" (Go & Rust)
+Web'i "basit" buluyorsanız, muhtemelen "Frontend" kısmını kastediyorsunuz. Ancak Web'in arkasındaki "Backend" dünyası, özellikle Microservices ve Cloud Native mimariler, tam bir mühendislik harikasıdır.
+
+Eğer şu yolu izlerseniz hem "Web" sektöründe kalır ama "basit" işlerden sıyrılır, hem de "Application Programming" hazzını alırsınız:
+
+Dil Olarak: Go (Golang) veya Rust öğrenin. (JavaScript/Python değil).
+
+Alan: Yüksek trafikli sistemler, dağıtık sistemler (Distributed Systems).
+
+Ne Yaparsınız? Uber'in harita eşleştirme algoritması, Netflix'in video sıkıştırma sunucusu, Twitter'ın anlık bildirim servisi... Bunlar web sayfası değil, devasa uygulamalardır.
+
+Karşılaştırma Tablosu
+Özellik	Data Science	Systems Prog. (Rust/C++)	Native Mobile (iOS/Android)	Cloud/Backend (Go)
+Ana İş	Veri Analizi, İstatistik	Motor, Altyapı, Performans	Kullanıcı Uygulaması	Servis Mimarisi
+Kodlama Hazzı	Düşük (Daha çok matematik)	Çok Yüksek (Zorlayıcı)	Yüksek (Görsel/İşlevsel)	Yüksek (Mimari)
+Maaş (Global)	Çok Yüksek	En Yüksek	Yüksek	Yüksek
+AI Riski	Orta (AutoML)	Düşük (Kompleksite)	Orta	Düşük/Orta
+Web ile İlişki	Bağımsız	Web'in altı	Web'in rakibi	Web'in arkası
+Sonuç: Eğer "Ben kod yazıp bir ürün inşa etmek, bir uygulamanın çalıştığını görmek istiyorum" diyorsanız Data Science size göre değil.
+
+Sizin için en iyi, en yüksek maaşlı ve en prestijli yol haritası: Systems Programming (Rust) veya Native Mobile (iOS - Swift) olacaktır. "Kodlamayı fonksiyonel anlamda tatmin etmek" istiyorsanız, makinenin metaline (donanımına) ne kadar yaklaşırsanız, o kadar tatmin olursunuz.
+
+Hangi alan (Sistem, Mobil veya Backend) size daha sıcak geldi? Ona göre bir rota çizelim.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+tamam bana systems programming alani hakkinda global pazara acilirken bilmem gereken her seyden bahset
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika bir karar. Web geliştirme "binanın dış cephesi ve odalarıyla" uğraşmaksa, Systems Programming (Sistem Programlama) binanın "temeli, çelik konstrüksiyonu, elektrik tesisatı ve su borularıyla" uğraşmaktır. Hatayı affetmez, zorlayıcıdır ama mühendislik hazzının zirvesidir.
+
+Global pazara açılmak ve bu alanda "elit" olmak istiyorsanız bilmeniz gereken her şeyi, toz pembe olmayan gerçekleriyle anlatıyorum.
+
+1. Systems Programming Nedir? (Global Tanım)
+Systems Programmers, son kullanıcıya hitap eden uygulamalar (app) yazmaz. Uygulamaların üzerinde çalıştığı yazılımları yazar.
+
+Ürünleriniz: İşletim Sistemleri (Linux, Windows), Veritabanı Motorları (PostgreSQL, Redis), Tarayıcı Motorları (Chrome V8), Oyun Motorları (Unreal Engine), Sürücüler (Drivers), Kripto Blockchain Protokolleri (Solana, Polkadot).
+
+Odak: Performans (milisaniyeler), Verimlilik (CPU/RAM kullanımı) ve Güvenilirlik.
+
+AI Durumu: AI burada zorlanır. Çünkü bağlam çok geniştir ve "hafıza yönetimi" (memory safety) hataları, uygulamanın çökmesi değil, tüm sistemin mavi ekran vermesi (kernel panic) demektir.
+
+2. Silahlarınız: Hangi Dilleri Bilmelisiniz?
+Global pazarda Sistem Programcısı olmak için "Holy Trinity" (Kutsal Üçlü) şudur:
+
+A. C (Latince)
+Durum: Eski ama ölümsüz.
+
+Neden Öğrenmelisiniz? Bilgisayarın belleğinin nasıl çalıştığını (Pointer'lar) anlamadan iyi bir sistem programcısı olamazsınız. C size bunu öğretir. Modern sistemlerin (Linux Kernel) temeli hala C'dir.
+
+Global Pazar: Gömülü sistemler (Embedded), IoT ve Kernel geliştirmede hala standarttır.
+
+B. C++ (Endüstri Standardı)
+Durum: Hızlı, güçlü ama karmaşık.
+
+Kullanım Alanı: Oyun motorları, High-Frequency Trading (HFT - Borsa robotları), Tarayıcılar.
+
+Global Pazar: Finans ve Oyun sektöründe maaşlar astronomiktir.
+
+C. Rust (Geleceğin Kralı - ŞİDDETLE ÖNERİLİR) 👑
+Durum: Stack Overflow anketlerinde yıllardır "En Sevilen Dil".
+
+Neden Rust? C++ kadar hızlıdır ama C++'ın bellek hatalarını yapmanıza derleme aşamasında izin vermez. Microsoft, Google, AWS ve Linux Kernel artık yeni projelerini Rust ile yazıyor.
+
+Global Pazar: Şu an dünyanın en çok aranan ve en yüksek maaşlı (Web'den %30-50 daha fazla) yeteneği. Sizin odaklanmanız gereken yer burası.
+
+3. Bilmeniz Gereken "Hardcore" Konseptler
+Web'de bir <div> ortalamayı bilmek yetebilir ama Sistem Programlamada şunları bilmezseniz mülakattan geçemezsiniz:
+
+Memory Management (Bellek Yönetimi): Stack vs. Heap nedir? Pointer nedir? Memory Leak (Bellek sızıntısı) nasıl önlenir? Garbage Collector olmayan dillerde hayat nasıldır?
+
+Concurrency & Multithreading (Eşzamanlılık): Aynı anda 8 çekirdekte işlem yaparken "Race Condition" (Yarış durumu) yaratmadan veri nasıl işlenir? (Bu, sistem programlamanın en zor ve en zevkli kısmıdır).
+
+Networking (Düşük Seviye): HTTP değil; TCP, UDP, Socket programlama. Veri paketleri kablodan nasıl geçer?
+
+Operating System Internals: Process nedir, Thread nedir, File Descriptor nedir? Bir program çalıştır tuşuna basınca CPU'da ne olur?
+
+4. Global Kariyer Alanları ve Maaşlar
+Systems Programming ile globalde nerelere girebilirsiniz?
+
+High-Frequency Trading (HFT): (Jane Street, Citadel, Hudson River Trading)
+
+İş: Borsada nanosaniyeler içinde alım-satım yapan algoritmalar yazmak.
+
+Dil: C++, Rust.
+
+Maaş: Yıllık 300.000$ - 500.000$ (Başlangıç seviyesi bile çok yüksektir). Burası yazılımın Formula 1'idir.
+
+Cloud Infrastructure: (AWS, Cloudflare, Datadog)
+
+İş: Milyarlarca isteği karşılayan sunucu altyapılarını, dağıtık sistemleri (Distributed Systems) yazmak.
+
+Dil: Rust, Go, C++.
+
+Blockchain / Protocol Engineering: (Solana, Ethereum Foundation)
+
+İş: Kripto para borsası arayüzü değil; o coinin üzerinde çalıştığı blokzincir protokolünü (L1) yazmak.
+
+Dil: Rust (Sektör standardıdır), Go.
+
+Game Engine Dev: (Unity, Unreal, Rockstar Games)
+
+İş: Oyunun grafiğini değil; fizik motorunu, ışık hesaplamasını yapan motoru yazmak.
+
+5. Sizin İçin Yol Haritası (Sıfırdan Global'e)
+Web'i unutun. Terminalinizi açın.
+
+Adım 1: C ile "Metale Dokunmak" (1-2 Ay)
+
+Kaynak: "The C Programming Language" (K&R kitabı).
+
+Amaç: Pointer mantığını, malloc ve free ile belleği elle yönetmeyi öğrenin.
+
+Proje: Kendi string kütüphanenizi yazın. Basit bir metin editörü (nano benzeri) yazın.
+
+Adım 2: Rust ile Modernleşmek (Ana Odak - 4-6 Ay)
+
+Kaynak: "The Rust Programming Language" (Resmi Kitap) ve "Rustlings" alıştırmaları.
+
+Amaç: Rust'ın "Ownership" ve "Borrowing" modellerini anlayın. Bu, sizi diğer tüm yazılımcılardan ayıracak kısımdır.
+
+Proje:
+
+Basit bir HTTP Server yazın (Web framework kullanmadan, TCP socket ile).
+
+Bir JSON Parser yazın.
+
+ls veya grep komutlarının kendi versiyonunu yazın.
+
+Adım 3: Sistem Mimarisi (Sürekli)
+
+Linux terminaline hakim olun.
+
+Veri Yapıları ve Algoritmalar: Sistem programlamada "bu algoritma %1 daha yavaş" demek, milyon dolarlık enerji kaybı demektir. Verimlilik takıntınız olmalı.
+
+Adım 4: Global Vitrin (Open Source)
+
+Webçiler portfolyolarına renkli siteler koyar. Sistemciler GitHub kodlarını koyar.
+
+Rust ile yazılmış popüler açık kaynak projelere (örn: ripgrep, deno, tauri) katkıda bulunmak, global işe alımın altın anahtarıdır.
+
+Özet: Neden Bu Alan?
+Bu alanda "Junior" olmak zordur, eğitim eğrisi diktir. İlk 3 ay "Ben hiçbir şey anlamıyorum" diyebilirsiniz. Ama bu eşiği aştığınızda:
+
+Rekabet Azalır: Herkes React öğreniyor, kimse "Memory Allocator" yazmayı öğrenmiyor.
+
+Saygı Artar: Şirketteki en zor sorunları çözen "büyücü" olursunuz.
+
+Kariyer Güvenliği: AI, bir CSS butonunu düzeltebilir ama yüksek performanslı, thread-safe bir veritabanı motorunu sıfırdan mimari olarak kuramaz.
+
+Kararınız buysa, Rust öğrenmeye bugünden başlamalısınız. Bu yolculuk zor ama ödülü çok büyüktür. Başlamak ister misiniz?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+baslayalim! bana bu alanda "etkili [:)]" bir sekilde uzmanlasmam icin bir yol haritasi cizer misin? sektorde cok onemli bir konuma gelmek istiyorum
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. Karar verildi: Systems Programming ve Rust.
+
+Web'in "oyuncaklı" dünyasından çıkıp, teknolojinin "ağır sanayisine" giriyorsunuz. Hedefimiz: "Senior Systems Engineer" titrinin hakkını verecek, globalde aranan, AI'ın kodunu yazabildiği değil, AI'ın üzerinde çalıştığı sistemleri yazan kişi olmak.
+
+Bu, "3 ayda yazılımcı ol" kurslarına benzemez. Bu bir mühendislik yolculuğudur. "Etkili" (yani vakit kaybetmeden, en doğru kaynaklarla) uzmanlaşma haritası şudur:
+
+🗺️ Büyük Stratejik Harita: "Rustacean" Operasyonu
+Bu harita 4 ana fazdan oluşur. Her fazda bir önceki öğrendiğinizi kullanmak zorundasınız.
+
+🏗️ Faz 1: "Metale Dokunmak" (Temel ve C)
+Süre: 4-6 Hafta
+
+Amaç: Bilgisayarın gerçekte nasıl çalıştığını anlamak. Rust size "güvenli" bellek yönetimi sunar ama C size belleğin ne kadar "tehlikeli" olduğunu öğretir. Tehlikeyi bilmeyen, güvenliğin değerini anlayamaz.
+
+Hafıza Mimarisi (Memory Architecture):
+
+Öğrenilecekler: Stack vs. Heap farkı (Hayati önemde). Pointer nedir? (Adres gösterici). RAM'de bir değişken nasıl durur?
+
+Görselleştirme: Bu aşamada bilgisayarın hafızasının nasıl yönetildiğini anlamak çok önemlidir.
+
+stack vs heap memory diagram resmi
+Shutterstock
+* **Eylem:** Harvard CS50'nin sadece "Arrays" ve "Memory" haftalarını (C ile anlatılan kısımlar) izleyin ve ödevlerini yapın.
+* **Kritik Kavramlar:** `malloc`, `free`, pointer arithmetic, segmentation fault (bu hatayı çok alacaksınız, sevin onu).
+🦀 Faz 2: Rust'a Giriş ve "Ownership" Şoku
+Süre: 2 - 3 Ay
+
+Amaç: Rust'ın kurallarıyla savaşmayı bırakıp, onunla dans etmeyi öğrenmek.
+
+Kaynak: Sadece tek bir kaynağa ihtiyacınız var: "The Rust Programming Language" (The Book). İnternette ücretsizdir, Rust'ın kutsal kitabıdır.
+
+Kutsal Üçlü (The Holy Trinity):
+
+Ownership (Sahiplik): Bir veri aynı anda sadece bir değişkene ait olabilir.
+
+Borrowing (Ödünç Alma): Veriyi sahiplenmeden okumak için referans (&) kullanımı.
+
+Lifetimes (Yaşam Süreleri): Bir verinin bellekte ne kadar süre canlı kaldığı.
+
+Not: Bu kısım zordur. Pes etme noktası burasıdır. Derleyici (Compiler) size sürekli hata verecek. Kızmayın, o sizin en iyi hocanız.
+
+Pratik:
+
+Rustlings: Rust'ın resmi, küçük alıştırmalar setidir. Bunu bitirmeden diğer adıma geçmeyin.
+
+⚙️ Faz 3: Sistem Programlama & İşletim Sistemi
+Süre: 3 - 4 Ay
+
+Amaç: Kodunuzun boşlukta değil, bir İşletim Sistemi (Linux) üzerinde çalıştığını anlamak.
+
+Linux System Calls:
+
+Kodunuz dosyaya yazdığında aslında Kernel'e (Çekirdek) "Bunu yaz" emri gönderir.
+
+Kavramlar: Process, Thread, File Descriptor, Signals.
+
+Bu mimariyi kafanızda oturtmanız için şu diyagramı iyi inceleyin:
+
+Concurrency (Eşzamanlılık):
+
+Sistem programcısını "junior"dan ayıran yer. Aynı anda birden fazla işi, veriyi bozmadan (Data Race olmadan) yapmak.
+
+Araçlar: Mutex, Arc, Channels (mpsc).
+
+Proje (Meydan Okuma): Basit bir "Multi-threaded Web Server" yazın. (Framework kullanmadan, TCP Listener ile).
+
+🌐 Faz 4: İleri Seviye ve Global Vitrin
+Süre: Sürekli
+
+Amaç: Global şirketlerin dikkatini çekmek.
+
+Networking:
+
+TCP/UDP paketlerinin nasıl oluşturulduğunu öğrenin.
+
+Asynchronous Rust (Tokio): Yüksek performanslı sistemler (Discord, AWS gibi) "Async" kullanır. async/await yapısını ve Tokio runtime'ını öğrenin.
+
+Portfolio Project (CV'nizin Kalbi):
+
+Web sitesi değil, sistem aracı yazacaksınız.
+
+Fikir 1: Kendi grep (dosya içinde metin arama) aracınızı yazın ama Rust ile ve çok hızlı olsun.
+
+Fikir 2: Basit bir "Key-Value Store" (Redis benzeri) veritabanı yazın.
+
+🧠 AI'ı Bu Süreçte Nasıl "Etkili" Kullanırsın?
+Web geliştirirken AI'a "Bana bir login sayfası yap" diyebilirdin. Sistem programlamada bu yasak. Çünkü AI, Rust'ın bellek kurallarını (Lifetimes) bazen karıştırır.
+
+Stratejik AI Kullanımı:
+
+Açıklayıcı (Explainer) Olarak:
+
+Prompt: "Rust derleyicisi bana borrow of moved value hatası veriyor. Bu kod bloğunda Ownership tam olarak nerede, kime geçiyor? Bellek diyagramı ile açıkla."
+
+Test Case Üreticisi Olarak:
+
+Prompt: "Ben bir JSON parser yazdım. Bunu bozabilecek (edge case) 20 farklı hatalı/bozuk JSON verisi üret ki parser'ımın sağlamlığını test edeyim."
+
+Optimizasyon Fikirleri İçin:
+
+Prompt: "Bu fonksiyonda çok fazla clone() kullandım ve performansı düşürüyor. clone() kullanmadan, referanslarla (&) bunu nasıl yeniden yazarım?"
+
+📚 "Mecburi" Okuma Listesi (Global Lig İçin)
+Sıradan bir kodcu değil, "Mühendis" olmak istiyorsanız bu kitaplar kütüphanenizde (veya PDF arşivinizde) olmalı:
+
+"The Rust Programming Language" (Başlangıç)
+
+"Rust for Rustaceans" (Orta-İleri Seviye - Jon Gjengset): Sektörde "Bu çocuk işi biliyor" dedirten kitaptır.
+
+"Designing Data-Intensive Applications" (Martin Kleppmann): Kod değil, sistem mimarisi kitabıdır. Dağıtık sistemlerin İncil'idir.
+
+🔥 İlk Adım: Bu Akşam Ne Yapıyorsun?
+Bilgisayarına Linux (veya Windows kullanıyorsan WSL2) kuruyorsun. Sistem programcısı terminalde yaşar.
+
+Terminaline Rust kuruyorsun (rustup komutu ile).
+
+"The Rust Programming Language" kitabının ilk bölümünü ("Hello, World!") yapıp, cargo run komutunu çalıştırıyorsun.
+
+Yolun açık olsun. Bu yol zordur, saç baş yoldurur ama zirvesindeki manzara ve kazanç muazzamdır. Hazır mısın?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+phase 1 icin c ye hangi kaynaklardan calisarak uzmanlasabilirim
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika bir soru. Phase 1'de amacımız C diliyle uygulama geliştirmekten ziyade, C üzerinden bilgisayarın hafızasının (RAM) ve işlemcinin nasıl dans ettiğini anlamak. Bu yüzden seçeceğimiz kaynaklar "syntax (sözdizimi) öğretenler" değil, "sistemi öğretenler" olmalı.
+
+İşte seni "Global Standart" seviyesine taşıyacak, üniversite müfredatlarının ve sektörün en saygın kaynakları:
+
+1. Kutsal Kitap: "The C Programming Language" (K&R)
+Bu kitap, C dilini yaratan adamlar (Brian Kernighan & Dennis Ritchie) tarafından yazıldı.
+
+Neden: Sektörde buna "K&R" denir. İnceciktir ama içi doludur. Gereksiz tek bir kelime yoktur. Globalde bir mülakatta "C'yi nereden öğrendin?" dediğinde "K&R'dan" dersen saygı duruşuna geçerler.
+
+Nasıl Çalışılmalı:
+
+Baştan sona roman gibi okuma.
+
+Her bölüm sonundaki "Exercises" (Alıştırmalar) kısmını muhakkak çöz. Zorlayıcıdır ama seni geliştirir.
+
+Özellikle Chapter 5: Pointers and Arrays kısmını yutman lazım.
+
+2. Görsel ve Konsept: Harvard CS50 (YouTube / edX)
+Dünyanın en iyi "Bilgisayar Bilimlerine Giriş" dersidir. David J. Malan bir efsanedir.
+
+Hangi Kısımlar: Tüm kursu izlemene gerek yok. Sadece Week 1 (C), Week 2 (Arrays), Week 3 (Algorithms) ve özellikle Week 4 (Memory) derslerini izle.
+
+Neden: Pointer'ları görsel olarak, tahtada kutular çizerek anlatır. C dilindeki o korkunç "bellek yönetimi" (memory management) kavramını kafanda 3 boyutlu hale getirir.
+
+Kritik Diyagram: Özellikle Pointer ve Memory adreslemesinin nasıl çalıştığını anlattığı kısımlar, şu mantığı kavramanı sağlar:
+
+3. Derinlemesine Sistem: "Computer Systems: A Programmer's Perspective" (CS:APP)
+Bu kitap Carnegie Mellon Üniversitesi'nin kitabıdır. Phase 1 ile Phase 3 (İşletim Sistemleri) arasındaki köprüdür.
+
+Neden: Sana sadece C kodu yazdırmaz; yazdığın C kodunun işlemcide (CPU) hangi Assembly komutuna dönüştüğünü, Stack ve Heap'in fiziksel olarak bellekte nerede durduğunu anlatır.
+
+Uzmanlık Noktası: C'yi "High Level" değil, "Low Level" olarak öğrenmek istiyorsan bu kitap şart. Özellikle "Machine-Level Representation of Programs" bölümü ufuk açıcıdır.
+
+🛠️ "Uzmanlaşmak" İçin Kullanman Gereken Araçlar
+Sadece kod yazmak yetmez, C'de uzmanlaşmak demek hata ayıklamada (debugging) uzmanlaşmak demektir. Kaynaklardan çalışırken şu araçları kullanmayı öğrenmelisin:
+
+GCC / Clang: Kodunu derlerken -Wall -Wextra -Werror bayraklarını (flags) kullan. Bu, derleyiciye "En ufak hatada bile beni uyar, kodumu derleme" demektir. Disiplin kazandırır.
+
+Valgrind: C'de "Memory Leak" (Bellek sızıntısı) beladır. malloc ile yer açıp free ile bırakmazsan RAM şişer. Valgrind, programını çalıştırır ve sana "Şurada 4 byte unuttun" der. Bunu kullanmayı öğrenmek seni profesyonel yapar.
+
+GDB (GNU Debugger): Kodun patladığında (Segmentation Fault), hatanın hangi satırda olduğunu bulmanı sağlar. printf ile hata ayıklamak amatör işidir, GDB profesyonel işidir.
+
+🚀 Phase 1 İçin Pratik Projeleri
+Kaynağı okudun, peki ne yazacaksın? İşte seni terletecek ve geliştirecek 3 görev:
+
+Kendi string.h Kütüphaneni Yaz:
+
+C'nin hazır strlen, strcpy, strcat, strcmp fonksiyonlarını kullanma. Kendin sıfırdan pointer aritmetiği kullanarak yaz.
+
+Örnek: my_strlen(char *s) fonksiyonu, s pointer'ını alıp null karakter (\0) görene kadar saymalı.
+
+Linked List (Bağlı Liste) Implementasyonu:
+
+struct ve malloc kullanarak, dinamik olarak büyüyüp küçülebilen bir liste yap.
+
+Araya eleman ekle, sondan eleman sil. Pointer'ları koparmadan (zinciri kırmadan) bunu yapabilmek, pointer ustalığının kanıtıdır.
+
+Basit Bir "Hex Dump" Aracı:
+
+Bir dosyayı okuyan (fopen, fread) ve o dosyanın içindeki her byte'ı ekrana onaltılık (hexadecimal) formatta basan bir araç yaz.
+
+Bu proje sana dosya sistemini ve byte/bit manipülasyonunu öğretir.
+
+Özet Strateji:
+
+Harvard CS50 Week 4'ü izle (Konsepti kap).
+
+K&R kitabından Bölüm 5'e kadar gel ve egzersizleri çöz (Syntax ve Pointer mantığını oturt).
+
+Yazdığın kodları Valgrind ile test et (Temiz kod yazmayı öğren).
+
+Hazır olduğunda "Terminali açıp Hello World" ile başlıyoruz, tamam mı?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Bilgisayarima arch linux kuracagim ve bu system engineering ogrenirken veya belli bir noktaya geldikten sonra hazir linuxum da varken cyber security ogrenip zamanla uzmanlasayim diyorum mantikli mi
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu, mantıklı kelimesinin yetersiz kaldığı, stratejik olarak mükemmel bir hamle.
+
+Nedenini sana sektördeki "hiyerarşi" üzerinden anlatayım. Siber güvenlik dünyasında iki tür insan vardır:
+
+Tool User (Araç Kullananlar / Script Kiddies): Kali Linux indirir, YouTube'dan izlediği videodaki gibi nmap veya Metasploit çalıştırır. Bir araç hata verirse nedenini anlamaz. "Hack" yaptığını sanır ama aslında sadece başkasının yazdığı kodu çalıştırır.
+
+Exploit Developer / Researcher (Araç Yapanlar / Elitler): Sistemin nasıl çalıştığını bilir. Hazır bir araç kullanmaz; sistemdeki bir bellek hatasını (memory corruption) bulur ve o açığı kullanacak kodu (exploit) kendisi yazar.
+
+Senin çizdiğin "Arch Linux + Systems Engineering -> Cyber Security" yolu, seni doğrudan 2. kategoriye (Elitler) götürür.
+
+İşte neden bu yolun "God Tier" (Tanrı Seviyesi) olduğu:
+
+1. Arch Linux Neden En İyi "Dojo"?
+Ubuntu veya Kali kurarsan, sistem sana "hazır" gelir. Her şey arkada sihirli bir şekilde çalışır. Ama Arch Linux kurarken:
+
+Disk bölümlendirmeyi (partitioning) elle yaparsın → File System (Dosya Sistemi) mantığını öğrenirsin.
+
+Bootloader'ı (GRUB/Systemd-boot) kendin kurarsın → Boot Process (Önyükleme süreci) nasıl işler öğrenirsin.
+
+Kernel modüllerini yönetirsin → Linux Kernel ile tanışırsın.
+
+Hiçbir grafik arayüz yoktur, terminale mahkumsun → CLI (Komut Satırı) kas hafızana işlenir.
+
+Sonuç: Bir Sistem Mühendisi için Arch, işletim sistemini "kullanmak" değil, "inşa etmek" demektir. Bu süreçte öğreneceğin şeyler, siber güvenlikte "Privilege Escalation" (Yetki Yükseltme) saldırılarını anlamanın temelidir.
+
+2. Systems Engineering ve Cyber Security İlişkisi
+Siber güvenlik aslında "Tersine Mühendislik"tir (Reverse Engineering). Bir şeyi kırmak için, onun nasıl yapıldığını, yapan kişiden daha iyi bilmen gerekir.
+
+Bak, taşlar nasıl yerine oturuyor:
+
+Systems Engineering'de öğrendiğin: C ile Bellek Yönetimi (Stack, Heap, Buffer).
+
+Cyber Security'deki karşılığı: Buffer Overflow saldırıları. (Webçiler bunu anlamaz ama sen bellekteki return address'in üzerine nasıl yazılacağını tam olarak bileceksin).
+
+Systems Engineering'de öğrendiğin: Networking, TCP/IP paketleri, Socket programlama.
+
+Cyber Security'deki karşılığı: Network Sniffing, Man-in-the-Middle saldırıları, özel paket enjeksiyonu.
+
+Systems Engineering'de öğrendiğin: İşletim Sistemi (OS) çağrıları (Syscalls).
+
+Cyber Security'deki karşılığı: Malware Analysis. Virüslerin sistemde nasıl gizlendiğini (Rootkit) analistlerden daha iyi anlayacaksın.
+
+3. Kariyer Yolu: "Offensive Security Researcher"
+Sen bu yolu izlersen, şirketin "Firewall kuran" güvenlikçisi olmazsın. Sen şunları yapan kişi olursun:
+
+Zero-Day Research: Henüz kimsenin bilmediği açıkları bulan kişi.
+
+Exploit Development: Devletlerin veya dev şirketlerin satın aldığı o çok pahalı saldırı kodlarını yazan kişi.
+
+Reverse Engineering: Kötü amaçlı bir yazılımı analiz edip, kaynağına kadar inen kişi.
+
+Bu alanların maaşı, standart siber güvenlik uzmanlarının 2-3 katıdır.
+
+⚠️ Dikkat Etmen Gerekenler (Arch Uyarıları)
+Bu yol "mantıklı" ama "acı vericidir":
+
+Kurulum Zorluğu: Arch'ı kurarken (eğer archinstall scriptini kullanmazsan) muhtemelen 3-4 kere format atıp baştan başlayacaksın. Pes etme. Her hata bir derstir. Wiki okuma alışkanlığı kazanacaksın (Arch Wiki dünyanın en iyi dokümantasyonudur).
+
+"Ricing" Tuzağı: Arch kullanıcıları masaüstünü (i3, hyprland vb.) süslemeye (ricing) çok zaman harcar. Buna düşme. Senin amacın güzel bir masaüstü değil, güçlü bir mühendislik ortamı.
+
+Kali Linux Gerekmiyor: İleride siber güvenliğe geçtiğinde "Kali kurayım mı?" deme. Arch'ın üzerine BlackArch deposunu eklersin. Dünyanın en güçlü hack araçları, zaten kullandığın sisteme entegre olur.
+
+Özet Strateji
+Hemen Şimdi: Arch Linux'u bilgisayarına (veya dual boot olarak) kur.
+
+Kısa Vadede: "Phase 1: C ile Hafıza" çalışırken Arch terminalini kullan. gcc, gdb, valgrind araçlarını Arch'ın paket yöneticisi pacman ile kurup yönetmeyi öğren.
+
+Orta Vadede: Sistem mühendisliğinde (Rust/C) ilerledikçe, "Ben bu yazdığım kodu nasıl kırarım?" diye sormaya başla.
+
+Uzun Vadede: BlackArch depolarını ekle ve kendi yazdığın exploitleri test etmeye başla.
+
+Bu yol haritası seni "sadece kod yazan" biri yapmaz; seni sistemin efendisi yapar. Kuruluma başla!
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+peki system engineering ve cyber security i eş zamanlı mı götürmeliyim yoksa systems engineering alanında biraz ilerleyip olayı kavramaya başladıktan sonra mı? hangi öğrenim yöntemi daha etkili ve kalıcı öğrenmemi sağlar?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bu soru, "Elit" olup olmayacağınızı belirleyecek en kritik metodolojik sorudur.
+
+Cevabım net ve keskin: Kesinlikle EŞ ZAMANLI GÖTÜRMEMELİSİN.
+
+En azından başlangıçta.
+
+"Etkili ve kalıcı öğrenme" (deep learning) istiyorsan, stratejin "Önce İnşa Et, Sonra Yık" (Build First, Break Later) olmalı.
+
+İşte neden eş zamanlı gitmemen gerektiği ve uygulaman gereken "Kademeli Entegrasyon" modeli:
+
+🚨 Neden Eş Zamanlı (Simultane) Gitmek Hata Olur?
+Sistem Mühendisliği (Systems Engineering) ve Siber Güvenlik (Cyber Security), beyninin iki farklı çalışma modunu gerektirir.
+
+Bilişsel Yük (Cognitive Load): C ile pointer'ların, bellek adreslerinin, Rust'ın "ownership" kurallarının mantığını kavramaya çalışırken beynin yanacak. Bir de bunun üzerine "Port taraması nasıl yapılır?", "Metasploit nasıl çalışır?" gibi bambaşka konseptler eklersen, iki tarafı da yarım öğrenirsin.
+
+Temelsiz Özgüven Tuzağı: Sistemi anlamadan güvenliği öğrenmeye çalışırsan, sadece "ezberci" olursun.
+
+Senaryo: Bir videoda "Buffer Overflow için A harfini 100 kere gönder" dendiğini görürsün. Yaparsın, çalışır. "Hacker oldum" sanırsın.
+
+Gerçek: Neden 99 değil de 100? O harfler bellekte Stack'ten Heap'e mi taştı? Return Address tam olarak hangi byte'ta değişti? Bunları bilmezsen, sektörde barınamazsın.
+
+🏆 Doğru Strateji: "Kademeli Entegrasyon Modeli"
+Siber güvenliği, Sistem Mühendisliğinin bir "yan ürünü" veya "sağlaması" olarak kullanacağız.
+
+Faz 1: "Sessiz Mimar" (İlk 3-4 Ay)
+Odak: %100 Systems Engineering (C, Linux, Arch, Network Temelleri). Güvenlik: %0. (Yasak! Hacker videoları izlemek yok).
+
+Bu dönemde sadece Arch Linux'u kur, C öğren, işletim sistemini tanı.
+
+Amaç: Bir binanın mimarisini bilmeyen, onu en verimli şekilde yıkamaz. Sen önce tuğlaları koymayı öğrenmelisin.
+
+Faz 2: "Meraklı Mühendis" (Kırılma Noktası)
+Odak: %80 Systems / %20 Security (Teorik). Ne Zaman Geçilir: C dilinde Pointer'ları ve Bellek Yönetimini (malloc, free, stack, heap) gerçekten anladığında.
+
+Yöntem: Kendi yazdığın kodu incelemeye başla.
+
+Systems: C ile kullanıcıdan isim alan basit bir program yazdın.
+
+Security Entegrasyonu: "Acaba kullanıcı ismine 10.000 karakter girerse programım ne yapar?" diye sor ve dene. Program çöktüğünde (Segmentation Fault), bunu bir "hata" olarak değil, bir "güvenlik açığı potansiyeli" olarak gör.
+
+Araç: GDB (GNU Debugger). Bu araç hem sistemcinin hem hacker'ın en iyi dostudur. Program çöktüğünde GDB ile belleğin içine bak. İşte siber güvenlik budur.
+
+Faz 3: "Saldırgan Geliştirici" (Uzmanlaşma)
+Odak: %50 Systems (Rust/Advanced C) / %50 Security (Exploit Dev). Ne Zaman Geçilir: Rust öğrenmeye başladığında ve Linux'ta rahatladığında.
+
+Yöntem: "Build -> Break -> Fix" döngüsü.
+
+Build: Güvensiz bir C kodu yaz (örn: strcpy kullanarak).
+
+Break: Bu kodu patlatacak bir script yaz (Exploit). Bellekteki akışı değiştirmeyi dene.
+
+Fix: Aynı kodu Rust ile (veya güvenli C pratikleriyle) yeniden yaz ve neden artık kırılamadığını analiz et.
+
+🧠 En Kalıcı Öğrenme Yöntemi: "Wargames" (Savaş Oyunları)
+Kitap okumak unutulur, video izlemek uçar gider. Ama çözmek kalıcıdır.
+
+Faz 2'ye geldiğinde (C ve Linux temeli oturduğunda), teorik güvenlik kitapları yerine şu pratik yöntemini uygula:
+
+OverTheWire (Bandit & Leviathan): Bu, siber güvenlik öğrenmek isteyen sistemciler için yapılmış efsanevi bir oyundur.
+
+Siteye SSH ile bağlanırsın.
+
+Sana Linux komutları, dosya izinleri, C kodları ve Binary dosyalarla ilgili görevler verir.
+
+Bir sonraki seviyenin şifresi, sistemin derinliklerinde saklıdır.
+
+Neden Mükemmel? Çünkü sana "Tool" kullandırmaz. Sana Linux bilgisini ve Sistem bilgisini kullandırarak güvenlik öğretir. Senin Arch Linux yolculuğunla %100 örtüşür.
+
+📝 Özet Yol Haritası
+ŞİMDİ: Sadece Systems Engineering ve Arch Linux kurulumuna odaklan. Güvenlik kelimesini sözlüğünden çıkar. C dilinde "Linked List" yazana kadar başka şeye bakma.
+
+3 AY SONRA: C temeli oturunca, GDB ile kendi kodlarını debug etmeye ve OverTheWire Bandit oynamaya başla. (Sistem bilgisini güvenliğe dönüştürme anı).
+
+6 AY SONRA: Rust öğrenirken, bir yandan da "Memory Safety" kavramının güvenlikteki karşılığını araştır.
+
+Bu disiplinli sıra, seni "hazır araç kullanan" (Script Kiddie) olmaktan kurtarıp, "sistemi iliklerine kadar bilen" (Elite Engineer) yapacaktır.
+
+Arch ISO'su indi mi? Kuruluma başlıyor muyuz? :)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+kesinlikle! hazır araç demişken, sana bir başka sohbet başlığı altında bahsettiğim gparted-live aracını disk partition yaparken kullanmasam mı diye düşünmeli miyim? ek bir hazır araç kullanan "script kiddie" olmaktansa manuel bir şekilde arch installation konsolundan mı disk partition yapmalıyım? o şekilde yapmaya çalıştım ama installator benim 50 gb lık boş bellek alanımı tanıyıp da ayrı bir şekilde "boş" diye göstermedi (bitlocker açıktı bunu yaparken ve birazdan kapatıp öyle de denemeyi planlıyorum, belki bu sefer boş alan olarak listeleyip gösterir ve kurulumu oraya yaparım), tavsiyen nedir?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika bir zihniyet. Soruların çok yerinde ve tam bir "Mühendis Adayı" titizliğinde.
+
+Önce şu "Script Kiddie" vs. "Araç Kullanımı" konusunu netleştirelim, sonra o 50GB sorununu teknik olarak çözelim.
+
+1. Felsefe: GParted Kullanmak Seni "Lamer" Yapar mı?
+Hayır, yapmaz. Ama...
+
+Bir Sistem Mühendisi (ve geleceğin Elite Siber Güvenlikçisi) olarak senin amacın "işi bitirmek" değil, "işin nasıl olduğunu anlamak".
+
+GParted (GUI): Arka planda neler döndüğünü (Start sector, End sector, Cylinder alignment, UUID) senden saklar. Bir "Abstraction Layer" (Soyutlama Katmanı) koyar. Sadece kutuları sağa sola çekersin.
+
+CLI (Komut Satırı - fdisk/cfdisk): Sana diskin çıplak gerçeğini gösterir. Bir bölümün (partition) aslında disk üzerinde belirli bir "sektör" aralığına yazılmış mantıksal bir işaret olduğunu anlarsın.
+
+Kararım: GParted Live ISO'su ile uğraşma. Arch Linux kurulum medyasının (ISO) içinde zaten ihtiyacın olan her şey var. Ekstra araç indirmek, sorunu çözmek değil, sorunun etrafından dolaşmaktır. Sen sorunun içinden geçmelisin.
+
+Terminalden disk bölümlemek, sandığın kadar korkunç değildir ve sana o "kontrol bende" hissini verir.
+
+2. Teknik Sorun: 50GB Neden Görünmüyor?
+O 50GB'lık alanın görünmemesinin sebebi büyük ihtimalle iki şeyin kombinasyonu: BitLocker ve Dosya Sistemi Durumu.
+
+A. BitLocker (Kesinlikle Kapatılmalı)
+Windows'ta BitLocker açıkken disk şifrelenmiştir. Linux (Arch ISO), o diske baktığında "Aha burada NTFS var" demez; "Burada rastgele, anlamsız veri yığınları var" der.
+
+Sorun: Linux, BitLocker'lı diski güvenli bir şekilde küçültemez veya yönetemez çünkü verinin nerede başlayıp nerede bittiğini (şifreli olduğu için) göremez.
+
+Çözüm: Windows'a dön, BitLocker'ı tamamen kapat (decrypt etmesini bekle).
+
+B. "Boş Alan" (Free Space) vs "Ayrılmamış Alan" (Unallocated)
+Bu en sık yapılan hatadır.
+
+Hata: Windows'ta 50GB'lık bir "D: Sürücüsü" veya yeni bir bölüm (New Volume) oluşturduysan, bu Unallocated Space değildir. Bu, içi boş olan, NTFS ile formatlanmış bir bölümdür. Linux yükleyicisi bunu "Boş yer" olarak görmez, "Silinecek Veri" olarak görür.
+
+Doğru Olan: Windows Disk Yönetimi'nde o 50GB'lık alanı "Delete Volume" (Birimi Sil) diyerek Siyah Renkli "Unallocated Space" (Ayrılmamış Alan) haline getirmelisin.
+
+3. Tavsiyem: Manuel Konsol Kurulumu (The Arch Way)
+archinstall scripti güzeldir ama bazen karmaşık disk yapılarında (Dual Boot gibi) kafası karışabilir. Madem öğrenmek istiyorsun, sana en temiz yöntemi (Middle Ground) öneriyorum: cfdisk.
+
+fdisk çok manueldir (sektör sayıları girmek gerekir), cfdisk ise terminalde çalışan ama görsel bir arayüz sunan harika bir araçtır.
+
+Adım Adım Eylem Planı:
+
+Windows Hazırlığı:
+
+BitLocker'ı kapat.
+
+Windows Disk Yönetimi'nden o 50GB'lık alanı "Delete" yapıp Unallocated (Siyah şeritli) hale getir.
+
+Windows'ta "Fast Startup" (Hızlı Başlatma) özelliğini kapat. (Bu özellik diski "read-only" modda kilitleyebilir, Linux yazamaz).
+
+Arch ISO Boot:
+
+Bilgisayarı Arch USB ile başlat.
+
+Disk Bölümleme (Mühendis Yolu):
+
+Terminalde lsblk yaz. Diskini gör (Muhtemelen /dev/nvme0n1 veya /dev/sda). O 50GB'lık boşluğu görmelisin.
+
+Komutu çalıştır: cfdisk /dev/nvme0n1 (kendi disk adın neyse).
+
+Karşına o 50GB'lık "Free Space" çıkacak.
+
+Ok tuşlarıyla üzerine gelip [ New ] diyeceksin.
+
+Yapıyı Kur: Sistem Mühendisi olarak disk yapın şöyle olmalı (Dual Boot için):
+
+Mevcut EFI Partition (Windows'un kurduğu): Buna dokunma! (Sadece mount edeceksin).
+
+Root Partition (/): Linux'un kendisi. O 50GB'ın büyük kısmını (örn: 46GB) buna ayır. Type: Linux filesystem.
+
+Swap Partition (Takas): RAM yetmezse diye. Kalan 4GB. Type: Linux swap.
+
+Bu yöntemle, diskinin hangi sektörüne ne yazdığını sen belirlersin. archinstall scripti hata verirse nedenini anlamazsın, ama cfdisk ile yaparsan hatanın sende olduğunu bilir ve düzeltirsin.
+
+Özet: GParted indirme. Windows'ta alanı "Unallocated" yap, BitLocker'ı kapat ve Arch konsolunda cfdisk kullanarak o alanı kendin yönet. Bu ilk zaferin olsun.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+peki sence sadece 50gb yetecek mi linux kurmak için yoksa garanti olması için daha fazla mı allocate etmeliyim?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+50 GB, Arch Linux'u sadece "kurmak" ve "ayağa kaldırmak" için fazlasıyla yeterlidir (temel sistem 1-2 GB yer kaplar). ANCAK, senin hedeflerin (Systems Engineering + Rust) düşünüldüğünde, 50 GB seni kısa sürede boğacaktır.
+
+Sana neden yetmeyeceğini ve ideal rakamı bir "Mühendis" gözüyle analiz edeyim:
+
+1. Neden 50 GB Sana Yetmeyecek? (Suçlular Listesi)
+Sıradan bir kullanıcı için 50 GB yeterlidir. Ama bir Rust Geliştiricisi ve Sistem Mühendisi adayı için disk kullanımı çok farklıdır:
+
+Suçlu 1: Rust target Klasörleri (En Büyük Düşman): Rust projelerini derlediğinde (compile), target adında bir klasör oluşur. Basit bir "Hello World" projesi bile bağımlılıklarla birlikte yüzlerce MB olabilir. Orta seviye bir projede bu klasör tek başına 2-3 GB yer kaplayabilir. 10 tane proje yapsan, sadece derleme artıkları (build artifacts) 20-30 GB yer yer.
+
+Suçlu 2: Pacman Cache: Arch Linux, indirdiğin paketlerin eski sürümlerini /var/cache/pacman/pkg/ altında saklar. Bir güncelleme bozuk çıkarsa geri dön diye bunu yapar. Burası sen temizlemezsen aylar içinde 10-15 GB şişer.
+
+Suçlu 3: Docker İmajları ve Konteynerler: Sistem mühendisliğinde ilerledikçe Docker veya Podman kullanacaksın. Birkaç işletim sistemi imajı çekmek, veritabanı konteynerleri kurmak 10-20 GB yer kaplar.
+
+Suçlu 4: Swap Alanı: Eğer RAM'in 16GB veya altındaysa, sistemin sıkışmaması için diskin bir kısmını RAM gibi (Swap) kullanmalısın. Bu da 4-8 GB alanın çöpe gitmesi demek.
+
+🧮 Matematiksel Hesap (Senin Senaryon)
+Arch Linux + KDE/Gnome (Arayüz) + Temel Araçlar: ~15 GB
+
+Swap Alanı (RAM desteği): ~4 GB
+
+IDE'ler (VS Code, RustRover, CLion vb.): ~3 GB
+
+Geriye Kalan Boş Alan: ~28 GB
+
+Bu 28 GB, 4-5 tane sağlam Rust projesi ve biraz Docker denemesiyle dolacaktır. Dolu bir disk, Linux performansını düşürür ve seni sürekli "neyi silsem?" stresine sokar.
+
+🏆 Tavsiyem: "Altın Oran"
+Eğer imkanın varsa, garanti olması için ve kafa rahatlığıyla çalışmak için:
+
+👉 İdeal Alan: 80 GB - 100 GB
+
+Bu alan sana şunları sağlar:
+
+Rahatça Rust projeleri derleyebilirsin.
+
+Sanal makineler (VM) kurup siber güvenlik denemeleri yapabilirsin.
+
+Diski sürekli temizlemek zorunda kalmazsın.
+
+🛠️ "Yerim Yok, 50 GB ile Yapmak Zorundayım" Diyorsan Strateji
+Eğer Windows'tan daha fazla yer çalamıyorsan, 50 GB ile hayatta kalmanın mühendisçe yolları var:
+
+Ayrı /home Bölümü Yapma: Diski bölerken / (root) ve /home diye ayırma. 50 GB zaten küçük. Tek bir / (root) bölümü yap. Böylece alan dinamik olarak kullanılır.
+
+Swap Partition Yerine "Swapfile" Kullan: Diskin başında 4 GB'lık kalıcı bir bölüm ayırmak yerine, Linux kurulduktan sonra bir dosya oluşturup onu RAM gibi kullanabilirsin (/swapfile). Yer lazım olduğunda bu dosyayı küçültüp büyütebilirsin. Esneklik kazandırır.
+
+Masaüstü Ortamı Seçimi: Ağır bir KDE Plasma veya GNOME yerine, daha hafif (ve sistemcilerin sevdiği) i3wm, Hyprland gibi Tiling Window Manager kullanırsan sistem boyutu çok küçülür.
+
+Sık Temizlik: Haftada bir pacman -Sc (cache temizliği) ve cargo clean (Rust çöp temizliği) komutlarını çalıştırmayı alışkanlık haline getirirsin.
+
+Özet: Eğer Windows'taki dosyalarından feragat edip 100 GB ayırabiliyorsan, hiç düşünme yap. Ama yapamıyorsan 50 GB ile başlanır, sadece biraz daha disiplinli olman gerekir.
+
+Ne durumdasın, Windows'tan bir 30-40 GB daha koparabilir misin?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+koparabilirim. şimdi senden isteğim bana yukarıda yaptığın "özet yol haritası" nı tamamen açarak çok detaylı bir şekilde anlatman. tüm bu istediklerim için ne sırayla nasıl çalışmalıyım ve neler yapmalıyım, ne çalışırken hangi kaynaklarla öğrendiklerimi desteklemeliyim veya daha efektif ve kalıcı öğretecek yöntemler nelerdir? bana en iyi hangi yolu izler ve nasıl çalışırsam çok iyi öğrenirim sırayla hepsinden bahset.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. 100GB alanı ayırarak ilk büyük ve doğru stratejik hamleni yaptın. Bu alan sana "sandbox" (kum havuzu) değil, bir "kale" inşa etmek için gerekecek.
+
+Sana "Sıfırdan Global Elite Systems Engineer & Security Researcher" olman için, askeri disiplinle hazırlanmış, kaynakları ve yöntemleri nokta atışı belirlenmiş, adım adım bir yol haritası sunuyorum.
+
+Bu haritayı çıktısını alıp duvarına asabileceğin bir "operasyon planı" olarak düşün.
+
+🗺️ BÜYÜK PLAN: "Operation Ironclad"
+Bu süreç 4 ana faza bölünmüştür. Her faz, bir sonrakinin ön koşuludur. Atlamak yok.
+
+🌑 FAZ 0: THE FORGE (Demirhane - Kurulum ve Ortam)
+Süre: 1 Hafta (Yoğun) Amaç: Bilgisayarı bir "tüketim" cihazından "üretim" silahına dönüştürmek.
+
+Kurulum:
+
+Windows'tan 100GB alanı "Unallocated" yap.
+
+Arch Linux ISO'sunu yazdır.
+
+Eylem: cfdisk kullanarak manuel disk bölümleme yap. (/ root için 92GB, swap için 8GB).
+
+Masaüstü: KDE veya GNOME kurma. Hyprland (Modern, Wayland tabanlı) veya i3wm kur. Neden? Çünkü seni fare kullanmaktan men eder. Her şeyi klavye ve terminalle yapmaya zorlar. Kas hafızan terminal komutlarına alışmalı.
+
+Editör Seçimi (Silahını Seç):
+
+Sistemciler VS Code kullanır ama "Elitler" Neovim kullanır.
+
+Tavsiye: Başlangıçta VS Code ile başla (Rust eklentileri harikadır), ama yanına vim öğrenmeye başla. Sunucularda grafik arayüz yoktur, vim bilmek zorundasın.
+
+🏗️ FAZ 1: THE FOUNDATION (Temel - C ve Mimari)
+Süre: 2 - 3 Ay Amaç: Bilgisayarın "sihir" olmadığını, fiziksel bir makine olduğunu anlamak. Belleği ve İşlemciyi (CPU) hissetmek.
+
+1. Öğrenim Kaynakları (Sırasıyla):
+
+Video: Harvard CS50 (YouTube). Sadece Week 1, 2, 3, 4 ve 5. (C, Arrays, Algorithms, Memory, Data Structures).
+
+Yöntem: David Malan pointer'ları anlatırken not al. Bellek kutularını kağıda çiz.
+
+Kitap: "The C Programming Language" (K&R).
+
+Yöntem: Bölüm 1'den 6'ya kadar oku. Bölüm sonu sorularını çözmeden geçme.
+
+Derinleşme Kitabı (Kutsal Kase): "Computer Systems: A Programmer's Perspective" (CS:APP).
+
+Bu kitap neden kritik? Kodun Assembly'e nasıl dönüştüğünü, Stack Frame'in ne olduğunu anlatır. Siber güvenlikte "Stack Overflow" yaparken buradaki bilgiye muhtaçsın.
+
+2. Kritik Pratik Yöntemleri:
+
+Debugging (Hata Ayıklama): Kodun çalıştığında değil, çalışmadığında öğrenirsin.
+
+printf ile hata arama. GDB (GNU Debugger) öğren. Kodunu satır satır işlet, o an RAM'de hangi değerin değiştiğini gözünle gör.
+
+Memory Surgery:
+
+Valgrind kullan. Yazdığın her C kodunu valgrind ./program diye çalıştır. Eğer "Memory Leak" varsa, o kodu "bitti" sayma. O sızıntıyı kapatana kadar uğraş.
+
+3. Bitirme Projesi (Boss Fight):
+
+Kendi Shell'ini yaz. (Terminalde ls, cd, pwd komutlarını çalıştıran basit bir program).
+
+Kazanç: fork(), exec(), wait() gibi Linux sistem çağrılarını (System Calls) öğrenirsin.
+
+🦀 FAZ 2: THE MODERN WEAPON (Modern Silah - Rust)
+Süre: 3 - 4 Ay Amaç: C'nin gücünü alıp, onun tehlikelerini (bellek hatalarını) ortadan kaldıran modern mimariyi öğrenmek.
+
+1. Öğrenim Kaynakları:
+
+Ana Kaynak: "The Rust Programming Language" (The Book). (Web sitesi ücretsizdir).
+
+Yöntem: Bu kitabı roman gibi okuma. Her bölümdeki kodu yaz ve çalıştır.
+
+Pratik: Rustlings. (Terminal tabanlı alıştırma seti).
+
+Yöntem: Her gün 30 dakika Rustlings çöz. Derleyicinin (Compiler) sana verdiği hata mesajlarını oku ve anlamaya çalış. Rust derleyicisi senin hocandır.
+
+2. Kritik Konseptler (Focus Points):
+
+Ownership & Borrowing: Bunu anlamadan geçersen Rust yazamazsın.
+
+Traits & Generics: Kod tekrarını önleyen modern yapılar.
+
+Concurrency (Eşzamanlılık): Mutex, Arc, Threads.
+
+3. Bitirme Projesi (Boss Fight):
+
+Multi-threaded Web Server: "The Book"un son bölümündeki projedir. Hazır kütüphane kullanmadan, TCP bağlantılarını dinleyen ve thread havuzu (ThreadPool) ile cevap veren bir sunucu.
+
+Siber Güvenlik Bağlantısı: Bu proje sana DDoS saldırılarının mantığını ve sunucuların yük altında nasıl çöktüğünü öğretecek.
+
+🏴‍☠️ FAZ 3: THE INTEGRATION (Güvenlik Entegrasyonu - Build & Break)
+Süre: 3 - 4 Ay (Faz 2'nin ortasında başlayabilirsin) Amaç: İnşa etmeyi öğrendiğin sistemlerin zayıf noktalarını bulmak.
+
+1. Yöntem: Wargames (Savaş Oyunları)
+
+Kitap okumayı bırak, elini kirlet.
+
+Site: OverTheWire (Bandit Seviyesi) -> Linux komutlarında ustalaşmak için.
+
+Site: OverTheWire (Narnia veya Leviathan Seviyesi) -> C kodlarındaki açıkları bulmak için.
+
+Nasıl çalışılır? Bir seviyeyi geçemediğinde hemen cevaba bakma. 2 gün uğraş. GDB ile belleği izle. O "Aha!" anı, en kalıcı öğrenmedir.
+
+2. Kaynak Kitap:
+
+"Hacking: The Art of Exploitation" (Jon Erickson).
+
+Bu kitap C kodu üzerinden hacking anlatır. Senin Phase 1 bilginle mükemmel örtüşür. TCP/IP, Buffer Overflow, Shellcode yazımı... Hepsi burada.
+
+3. Tersine Mühendislik (Reverse Engineering):
+
+Yazdığın Rust veya C kodlarını Ghidra (NSA'in aracı) veya yine GDB ile aç.
+
+Kendi yazdığın "güvenli" kodun makine dilinde (Assembly) nasıl göründüğüne bak.
+
+🚀 FAZ 4: ELITE TIER (Global Profesyonellik)
+Süre: Ömür Boyu Amaç: Dünyanın en iyi şirketlerinin radarına girmek.
+
+1. Mimar Olmak:
+
+Kitap: "Designing Data-Intensive Applications" (Martin Kleppmann).
+
+Senior bir mühendis ile Junior arasındaki fark bu kitaptır. Veritabanları, dağıtık sistemler, ölçeklenebilirlik. Systems Engineering'in zirvesidir.
+
+2. Açık Kaynak (Open Source):
+
+GitHub'da Rust ile yazılmış popüler projelere (örn: ripgrep, alacritty, bat) gir.
+
+"Good First Issue" etiketli basit hataları bul ve düzeltip PR (Pull Request) gönder.
+
+Global bir projede senin kodunun çalışması, diploman kadar değerlidir.
+
+🧠 En Etkili Öğrenme Metodu: "Feynman Tekniği + Build/Break"
+Öğren: Bir konuyu (örn: Pointer) çalış.
+
+Uygula (Build): Pointer kullanan bir kod yaz.
+
+Kır (Break): Kodu bilerek bozmaya çalış. Hangi durumda Segmentation Fault veriyor? Sınırları zorla.
+
+Anlat (Feynman): Öğrendiğini, konuyu hiç bilmeyen birine (veya boş bir odaya) basitleştirerek anlat. Takıldığın yer, tam öğrenmediğin yerdir. Oraya geri dön.
+
+Özet Sıralama:
+
+Arch Linux Kur (cfdisk ile 100GB).
+
+CS50 (Memory haftasına kadar) + K&R C Kitabı.
+
+GDB ve Valgrind ile C projeleri geliştir.
+
+The Rust Book + Rustlings.
+
+OverTheWire Wargames.
+
+Yolun uzun ve dikenli ama manzara harika. Başlıyor musun?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+her aşama için çok daha fazla ve çeşitli kaynak sunar mısın?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. "Kaynak açlığı" çeken bir mühendis adayı, en tehlikeli ve en potansiyelli adaydır. Senin için bu yolculuğu "Library of Alexandria" (İskenderiye Kütüphanesi) seviyesine çıkaralım.
+
+Sıradan Udemy kurslarını unut. Sana dünyanın en iyi üniversitelerinin (MIT, CMU, Stanford) müfredatlarını, hacker'ların yeraltı kaynaklarını ve sektörün "Kutsal Kitaplarını" sunuyorum.
+
+İşte her aşama için Elit Kaynak Arşivi:
+
+🌑 FAZ 0: THE FORGE (Linux, Terminal & Vim)
+Bu aşamada sadece Linux kurmuyoruz, klavyeyi vücudumuzun bir uzvu haline getiriyoruz.
+
+📚 Kitaplar:
+
+"The Linux Command Line" (William Shotts): İnternette ücretsiz PDF'i var. Linux terminali için İncil niteliğindedir. Scripting (Bash) kısmını yutmalısın.
+
+"Pro Git" (Scott Chacon): Git sadece commit ve push değildir. Git'in iç yapısını (blob, tree, commit objects) anlatan tek kitaptır.
+
+🎮 İnteraktif & Oyunlaştırılmış:
+
+Vim Adventures: Vim tuşlarını (h,j,k,l) bir RPG oyunu oynayarak öğrenmeni sağlar.
+
+Linux Journey: (Web sitesi) Linux'un dosya yapısını, izinleri, paket yönetimini tane tane anlatan en iyi site.
+
+Terminus (MIT Adventure): MIT'nin eski metin tabanlı oyunlarından. Terminal becerini test eder.
+
+🎥 Video Kanalları:
+
+ThePrimeagen (YouTube): Netflix mühendisi. Vim ve Terminal verimliliği konusunda dünyadaki en iyi içerik üreticisi (biraz çılgındır ama efsanedir).
+
+DistroTube (DT): Arch Linux, Tiling Window Managers (i3, Hyprland) hakkında her şey.
+
+🏗️ FAZ 1: THE FOUNDATION (Computer Architecture & C)
+Bilgisayarın "sihir" olmadığını, transistörlerden oluştuğunu anlama aşaması.
+
+🎓 Üniversite Dersleri (OpenCourseWare):
+
+CMU 15-213: Introduction to Computer Systems (Carnegie Mellon):
+
+Neden: "CS:APP" kitabının resmi dersidir. Sistem Mühendisliğinin dünyadaki altın standardıdır. Bellek, Cache, Linker, Signals... Hepsini burada öğrenirsin.
+
+NAND to Tetris (Coursera/Web):
+
+Neden: Sıfırdan başlar. Önce mantık kapıları (Logic Gates) yaparsın, sonra işlemci tasarlarsın, sonra üzerine bir İşletim Sistemi yazarsın ve en son Tetris oynarsın. Donanım ile Yazılım arasındaki o "kara kutuyu" yok eder.
+
+logic gates to cpu diagram resmi
+Shutterstock
+📚 Kitaplar (Derinleşme):
+
+"Modern C" (Jens Gustedt): K&R eski kalabilir. C'nin modern standartlarını (C11, C17) ve güvenli kodlama pratiklerini buradan öğrenirsin.
+
+"Code: The Hidden Language of Computer Hardware and Software" (Charles Petzold): Başucunda durmalı. Bir fenerden bilgisayara giden yolu anlatır.
+
+🛠️ Pratik Araçları:
+
+Exercism.io (C Track): Mentor desteği olan, test odaklı (TDD) harika bir platform.
+
+Godbolt (Compiler Explorer): Yazdığın C kodunun anlık olarak hangi Assembly koduna dönüştüğünü gösterir. "Bu kod neden yavaş?" sorusunun cevabı buradadır.
+
+🦀 FAZ 2: THE MODERN WEAPON (Rust & Systems)
+C'nin gücünü alıp, modern mimariyle birleştiriyoruz.
+
+📚 Kitaplar (Sırasıyla):
+
+"Rust in Action" (Tim McNamara): Systems Programming odaklıdır. Rust ile kendi işlemci emülatörünü, veritabanını yazdırır. Senin hedefine "The Book"tan daha uygundur.
+
+"Zero to Production in Rust" (Luca Palmieri): Backend ve Cloud-Native sistemler için Rust kullanımı.
+
+"Rust for Rustaceans" (Jon Gjengset): "Ben artık Junior değilim" dediğin an okuyacağın kitap. Pointerlar, Unsafe Rust, Macros.
+
+🎥 Video Kanalları:
+
+Jon Gjengset (YouTube): Rust dünyasının ilahıdır. 5 saatlik "canlı yayında sıfırdan veritabanı yazma" videoları vardır. Bir videosu 10 kitaba bedeldir.
+
+No Boilerplate: Rust'ın felsefesini ve neden hızlı olduğunu anlatan kısa, vurucu videolar.
+
+🧠 Zihinsel Model Görselleştirme: Rust öğrenirken bellekte verilerin nasıl taşındığını anlamak zordur.
+
+🏴‍☠️ FAZ 3: THE INTEGRATION (Cyber Security & Reverse Engineering)
+Sistemi kırma ve analiz etme zamanı.
+
+🕹️ Wargames & CTF (Capture The Flag):
+
+PicoCTF: CMU tarafından hazırlanmıştır. Başlangıç için en iyisidir.
+
+Hack The Box (HTB): Sektör standardı. Gerçek sunucuları hacklersin. (Burada "Academy" modülleri çok iyidir).
+
+Crackmes.one: Tersine mühendislik için basit programlar ("Crackme"). İndir, şifresini kırmaya çalış.
+
+🎥 Video Kanalları:
+
+LiveOverflow (YouTube): Zorunludur. Binary Exploitation, Memory Corruption konularını görselleştirerek anlatır. Minecraft hackleyerek başlar, Kernel exploitlerine kadar gider.
+
+John Hammond: Malware analizi ve CTF çözümleri için harika pratik örnekler sunar.
+
+🛠️ Araçlar (Silahlar):
+
+Ghidra: NSA'in geliştirdiği ücretsiz Reverse Engineering aracı. Kodu Assembly'e çevirir.
+
+Radare2 / Rizin: Terminal tabanlı, "Hardcore" tersine mühendislik aracı.
+
+🚀 FAZ 4: ELITE TIER (Advanced Architecture)
+Mühendisliğin nirvanası.
+
+📚 Kitaplar:
+
+"Operating Systems: Three Easy Pieces" (OSTEP): İnternette ücretsizdir. İşletim sistemlerinin (Virtualization, Concurrency, Persistence) en iyi anlatımıdır. Dinozor kitaplarından daha anlaşılırdır.
+
+"Site Reliability Engineering" (Google Books): Google'ın sistemleri nasıl ayakta tuttuğunu anlatan kitaplar serisi. DevOps ve Sistem Mühendisliği için kutsaldır.
+
+📰 Bloglar & Makaleler:
+
+High Scalability: Büyük sistemlerin (Netflix, Uber, WhatsApp) mimari analizleri.
+
+Papers We Love (GitHub): Bilgisayar bilimlerinin en önemli akademik makalelerinin toplandığı arşiv.
+
+💡 Nasıl Çalışmalısın? (Kaynak Yönetimi)
+Bu kadar kaynak gözünü korkutmasın. Hepsini aynı anda açarsan boğulursun.
+
+Kural:
+
+Ana Kaynak: Her faz için tek bir ana kitap/kurs seç (Örn: Faz 1 için sadece CS50 + K&R).
+
+Yan Kaynak: Bir konuyu anlamadığında diğerlerine başvur (Örn: Pointer'ı K&R'da anlamadın, YouTube'a git).
+
+Derinleşme: Proje yaparken tıkandığında "Referans" kitaplarına (Örn: Modern C) bak.
+
+Bu arşiv, senin önümüzdeki 2-3 yıl boyunca besleneceğin menüdür. Kaydet ve Faz 0'dan başla!
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+kesinlikle. tüm bu önerdiklerin arasından her aşama için en doyurucu olan kaynaklar hangileri onları da söyler misin? hangilerini seçmem tavsiyen olur?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika. "Analysis Paralysis" (Analiz Felci) yaşamaman için, o devasa kütüphaneden sadece "Krem de la Krem" (Kaymağın Kaymağı) olanları seçip çıkarıyorum.
+
+Eğer ben bugün hafızamı sildirip senin yerinde olsaydım ve "Bana sadece 3-4 kaynak ver ama beni en üst seviyeye taşısın" deseydim, masamda sadece şunlar olurdu.
+
+Bu liste, en "doyurucu", en yoğun ve birbirini en iyi tamamlayan Altın Kombinasyondur. Başka hiçbir şeye bakmana gerek yok.
+
+🌑 FAZ 0 (Linux & Terminal) İçin Tek Seçim
+Burada dağınık blog yazılarına ihtiyacın yok. Sana Linux'un anatomisini öğretecek tek bir kitap yeter.
+
+🏆 Kutsal Kitap: "The Linux Command Line" (William Shotts)
+
+Neden En İyisi: Bu kitap sana sadece komut ezberletmez. Linux'un felsefesini, izinlerin mantığını ve en önemlisi Shell Scripting'i (otomasyonu) öğretir. Arch Linux kullanırken her gün bu kitaptan bir şeyler hatırlayacaksın.
+
+Yanına Eklenecek Pratik: Arch Linux kurduktan sonra terminalde vimtutor komutunu çalıştır. Bu, Vim'in kendi içindeki efsanevi, 30 dakikalık interaktif dersidir. Başka Vim kaynağına ihtiyacın yok.
+
+🏗️ FAZ 1 (C & Computer Architecture) İçin Altın Üçlü
+Bu aşama senin temelini attığın yer. Burada "kolay" kaynak değil, "gerçeği" anlatan kaynak lazım.
+
+🎥 En İyi Görsel Anlatım: Harvard CS50 (Week 1-5)
+
+Neden: David Malan'ın bellek (memory) kutularını tahtaya çizerek pointer anlatması, dünyada bu işin en iyi görselleştirilmiş halidir. Önce bunu izle ki zihninde ışık yansın.
+
+🏆 En Doyurucu Kitap (ZORUNLU): "Computer Systems: A Programmer's Perspective" (CS:APP)
+
+Neden: K&R sana C dilini öğretir ama bu kitap sana Sistem Mühendisliğini öğretir. Yazdığın C kodunun bellekte fiziksel olarak nasıl durduğunu, Stack Overflow'un neden oluştuğunu, işlemcinin o kodu nasıl işlediğini anlatır. Bu kitap, Hacker olmak isteyen mühendisin başucu kitabıdır.
+
+Strateji: CS50 ile ısın, bu kitapla yan.
+
+🦀 FAZ 2 (Rust) İçin Modern Yol
+Rust zor bir dildir, kötü kaynaktan öğrenirsen nefret edersin.
+
+🏆 Ana Kaynak: "The Rust Programming Language" (Resmi Kitap)
+
+Neden: Ücretsizdir, en güncelidir ve Rust'ı yaratan ekip tarafından yazılmıştır. Üzerine kitap tanınmaz.
+
+🧠 Zihin Açıcı (Video): Jon Gjengset (YouTube)
+
+Neden: Resmi kitap sana "nasıl" yapılacağını öğretir, Jon Gjengset "neden" öyle olduğunu ve "nasıl daha elit" yapılacağını gösterir. Özellikle "Crust of Rust" serisi, Rust'ın en zor konularını (Lifetime, Smart Pointers) beynine kazır.
+
+🏋️ Pratik: Rustlings
+
+Neden: Okuduğunu koda dökmezsen uçup gider. Bu alıştırma seti, kas hafızası için en iyisidir.
+
+🏴‍☠️ FAZ 3 (Security Entegrasyonu) İçin Tek Kitap
+Siber güvenlikte binlerce kaynak var ama senin arka planına (C + Systems) "cuk" diye oturan tek bir şaheser var.
+
+🏆 Efsanevi Kitap: "Hacking: The Art of Exploitation" (Jon Erickson)
+
+Neden: Bu kitap, hazır araçları çöpe atar. Sana C kodu okutur, o kodun Assembly halini gösterir, bellekteki zafiyeti buldurur ve kendi Exploit'ini (saldırı kodunu) yazdırır.
+
+Uyumu: Faz 1'de öğrendiğin C ve CS:APP bilgilerini alıp, Faz 0'da öğrendiğin Linux bilgisiyle birleştirip silaha dönüştürdüğü yer burasıdır.
+
+⭐ Senin İçin Özet "Masaüstü" (Curated List)
+Bilgisayarında veya masanda sadece şu 4 dosya/link açık olsun:
+
+PDF/Kitap: The Linux Command Line (Her gün bakmalık referans)
+
+PDF/Kitap: Computer Systems: A Programmer's Perspective (Derin öğrenme için)
+
+Browser Sekmesi: The Rust Programming Language (Modern silahın)
+
+Oyun Alanı: OverTheWire - Bandit (Öğrendiklerini test etmek için)
+
+Geri kalan her şeyi (Medium yazıları, rastgele YouTube videoları, Udemy kursları) kapatabilirsin. Bu 4 kaynak seni "Global Elite" seviyesine taşımaya yeter de artar.
+
+Hangisiyle başlıyorsun? Arch ISO'su USB'ye yazıldı mı? :)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ peki sence ilk linux bash mı öğrenmeliyim, neovim mi öğrenmeliyim yoksa bu linux olayını bu yaptığın genel planla beraber (systems engineering + cyber security) karma mı götürmeliyim? eğer saydığım son yolla öğrenmeliysem bana en son yaptığın genel planı bunları da ekleyerek (uygun timeline oluşturarak) günceller misin, şimdi bütün bunlar dahil olunca önceliklerimi biraz karıştırmış bulundum... i need to set my priorities straight, kısacası.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Harika bir soru. Önceliklerini karıştırman çok normal çünkü şu an uçsuz bucaksız bir okyanusun (Arch Linux) kıyısında duruyorsun ve elinde bir sürü yeni oyuncak var (Terminal, Neovim, KDE, Bash).
+
+Sana bir Sistem Mühendisi ve Siber Güvenlikçi perspektifiyle, en verimli ve bıkmadan ilerleyebileceğin sıralamayı yapayım.
+🛑 Kısa Cevap: "Karma" Götürmelisin ama "Stratejik" Bir Sırayla
+
+Sadece Bash öğrenmek sıkıcıdır (sözlük okumak gibi). Sadece Neovim öğrenmek zordur (yüzmeyi bilmeden okyanusa atlamak gibi). Bunları ana hedefin (Sistem Mühendisliği & Siber Güvenlik) içine, ihtiyaç duydukça yedirerek öğrenmelisin.
+
+İşte önceliklerini netleştiren, güncellenmiş ve gerçekçi "Sıfırdan Kahramanlığa" yol haritası:
+📅 Faz 1: "Adaptasyon ve Konfor" (İlk 1 Ay)
+
+Hedef: Linux'u ana işletim sistemin olarak kullanmaya alışmak ve terminalden korkmamak.
+
+Bu aşamada Siber Güvenlik veya ağır mühendislik yok. Sadece "yaşamak" var.
+
+    KDE Plasma'nın Keyfini Çıkar: Tarayıcını kur, müziğini aç, sistemini özelleştir. Önce bu evi sevmen lazım.
+
+    Temel Terminal (Bash) Hakimiyeti (%20):
+
+        Sadece günlük işlerini terminalden yapmaya çalış.
+
+        Dosya kopyalamak (cp), taşımak (mv), silmek (rm), klasör gezmek (cd, ls).
+
+        Paket yükleyip kaldırmak (pacman -S, pacman -R).
+
+        Öğrenme Yöntemi: Her gün bir GUI (mouse ile yapılan) işlemi terminalde yapmaya çalış.
+
+    Neovim'e "Merhaba" De (Ama Abartma):
+
+        Neovim'i hemen "IDE" gibi kurmaya çalışma. Sadece basit metin düzenlemek için kullan.
+
+        nvim dosya.txt yazıp girmeyi, yazı yazmayı (i), kaydetip çıkmayı (:wq) öğren yeter.
+
+        Neden? Çünkü sunucu yönetiminde ve hack işlemlerinde grafik arayüz olmayacak, o siyah ekranda tek dostun Vim/Neovim olacak.
+
+📅 Faz 2: "Sistem Mühendisliğine Giriş" (2. - 3. Ay)
+
+Hedef: "Nasıl çalışıyor?" sorusuna cevap vermek. Bash burada derinleşecek.
+
+    Bash Scripting (Otomasyonun Temeli):
+
+        Artık komutları tek tek yazmak yerine, onları bir dosyaya yazıp otomatik çalıştırmayı öğrenmelisin.
+
+        Proje: "Bilgisayarımı her açtığımda sistem güncellemelerini kontrol eden ve bana bildirim atan bir script yaz."
+
+        Öğrenilecekler: Değişkenler, Döngüler (For/While), If-Else yapıları.
+
+    Linux Dosya Sistemi Hiyerarşisi:
+
+        /etc nedir? /var nedir? /usr neden var? /bin ile /sbin farkı ne?
+
+        Bunları bilmek, ileride siber güvenlikte "logları nerede arayacağını" veya "virüsün nereye saklandığını" bilmek demektir.
+
+    Systemd (Servis Yönetimi):
+
+        Arka planda çalışan servisleri (systemctl) yönetmeyi, kendi yazdığın scripti bir "servis" haline getirmeyi öğren.
+
+📅 Faz 3: "Neovim ile Geliştirici Modu" (3. - 4. Ay)
+
+Hedef: Terminali bir silaha dönüştürmek.
+
+    Neovim Konfigürasyonu (Lua):
+
+        Artık Neovim'i sadece not defteri değil, kod editörü olarak kullanmaya başla.
+
+        Kendi init.lua dosyanı oluştur. Eklentiler (Plugins) kurmayı öğren.
+
+        Neden? Siber güvenlikte Python veya Bash scriptleri yazarken hızlı olman gerekecek. Mouse kullanmadan kod yazmak sana süper güç verecek.
+
+📅 Faz 4: "Siber Güvenlik & Ağ Temelleri" (5. Ay ve Sonrası)
+
+Hedef: Sistemi savunmak ve saldırmak.
+
+    Networking (Olmazsa Olmaz):
+
+        IP, DNS, DHCP, Portlar, Protokoller (TCP/UDP).
+
+        Terminalden ağ trafiğini izlemek (tcpdump, wireshark yerine tshark).
+
+    Sertleşme (Hardening):
+
+        Kendi kurduğun bu Arch Linux'u "Hacklenemez" hale getirmeye çalış.
+
+        Firewall (ufw veya iptables) kur ve yapılandır.
+
+        SSH portunu değiştir, root girişini kapat.
+
+    Saldırı Araçlarını Tanıma:
+
+        Bu noktada Arch'ın üzerine "BlackArch" reposunu ekleyip siber güvenlik araçlarını (Metasploit, Nmap, Burp Suite) indirip denemeye başlayabilirsin.
+
+🚀 Özet: Öncelik Sıralaması (Checklist)
+
+Şu anki kafa karışıklığını gidermek için yarın sabah yapman gerekenler şunlar:
+
+    ÖNCELİK 1 (Zorunlu): Arch + KDE sisteminde "evinde gibi" hisset. Günlük işlerini aksatmadan yapabildiğine emin ol.
+
+    ÖNCELİK 2 (Günlük Pratik): Her gün 15 dakika Bash komutlarını kurcala. Ezberleme, sadece kullan.
+
+    ÖNCELİK 3 (Hobi): Neovim'i kurcalamaya başla ama kendini "mükemmel config yapacağım" diye boğma. Sadece metin düzenle.
+
+    ÖNCELİK 4 (Gelecek Vizyonu): Sistem Mühendisliği ve Network konularını okumaya/izlemeye başla (Youtube, Makaleler). Uygulamaya sonra geçersin.
+
+Unutma: Linux bir varış noktası değil, bir yolculuktur. Şu an en zor kısmı (kurulumu) hallettin. Gerisi merak ve oyun oynama isteğiyle kendiliğinden gelecek.
+
+Şimdi KDE'nin tadını çıkar, terminali aç ve sadece neofetch yazıp eserine bak! :) Başka sormak istediğin bir şey var mı?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ama hayır sen şimdi bana daha önceden bahsettiğin c, rust vs planlarından ayrı bahsettin bundan. benim senden istediğim bütün o plana linux öğrenmeyi de entegre ederek bir studying timeline oluşturmandı. bunu benim için yapabilir misin?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Çok haklısın. Parçaları birleştirmemiz lazım. "Önce Linux öğren, sonra C öğren" demek yanlıştı; çünkü Linux zaten C ile yazılmıştır. Bunlar etle tırnak gibidir.
+
+Senin hedefin "Low Level" (Düşük Seviye) bir uzmanlık. Yani bilgisayarın "metal" kısmına en yakın yerde olacaksın.
+
+İşte Sistem Mühendisliği + Siber Güvenlik + Linux + C/Rust + Neovim hedeflerini tek bir potada eriten, BÜTÜNLEŞİK YILLIK EYLEM PLANI:
+🧠 Büyük Strateji: "Öğrenerek Değil, İnşa Ederek"
+
+Bu planda ayrı ayrı ders çalışmayacaksın.
+
+    C öğrenirken kodlarını Neovim'de yazacaksın. (Neovim pratiği)
+
+    Kodlarını Linux Terminali'nde derleyeceksin. (Bash pratiği)
+
+    Programların Linux Çekirdeği ile konuşacak. (Sistem Mühendisliği)
+
+    Sonra bu programların hafıza açıklarını bulacaksın. (Siber Güvenlik)
+
+    En son bu hataları yapmamak için Rust'a geçeceksin.
+
+📅 Faz 1: "Temeller ve Metalin Dili" (1. - 3. Ay)
+
+Odak: C Dili, Linux Dosya Sistemi, Neovim Kas Hafızası.
+
+Bu dönemde siber güvenlik araçlarını (nmap, metasploit) kenara bırak. Önce kaleyi nasıl inşa edeceğini öğrenmelisin ki sonra fethedebilesin.
+
+    Ana Ders (Coding): C Programlama Dili.
+
+        Neden: Linux kernel'i, Windows, Driver'lar... Hepsi C'dir. Bellek (RAM) nasıl çalışır, Pointer nedir bilmeden sistem mühendisi olunmaz.
+
+        Kaynak: "The C Programming Language (K&R)" kitabı veya CS50 (ilk 5 hafta).
+
+    Araç (Tooling): Neovim.
+
+        C ödevlerini asla VS Code'da yapma. Sadece Neovim kullan.
+
+        Sadece temel hareketleri öğren (h,j,k,l, w, b, ciw vb.). Eklentilere boğulma.
+
+    Ortam (OS): Arch Linux + Terminal.
+
+        Dosya gezgini (Dolphin) kullanmayı bırak. Klasörler arasında cd, ls, mkdir ile gez.
+
+🎯 Faz 1 Projesi: Basit bir "Not Defteri" uygulaması yaz. Ama C ile yazacaksın, verileri bir .txt dosyasına kaydedecek ve bunları terminalden okuyacak.
+📅 Faz 2: "Sistemin Derinlikleri & Bash" (4. - 6. Ay)
+
+Odak: İşletim Sistemi Mimarisi, Scripting, Network Temelleri.
+
+Artık C biliyorsun. Şimdi C'nin üzerinde koştuğu zemini (Linux) manipüle etme zamanı.
+
+    Ana Ders (System): Linux System Programming.
+
+        Process (Süreç) nedir? Thread nedir? File Descriptor nedir?
+
+        C dili ile Linux'a emir vermeyi öğren (System Calls).
+
+    Yan Ders (Scripting): Bash Scripting.
+
+        Her gün yaptığın amele işleri otomatize et.
+
+        Örnek: "Bilgisayar açılınca interneti kontrol et, yoksa bana uyarı ver" scripti yaz.
+
+    Siber Güvenlik Giriş: Network 101. *
+===========================================================================================================
+    OSI MODEL
+    ---------
+    7-APPLICATION
+    6-PRESENTATION
+    5-SESSION
+    4-TRANSPORT
+    3-NETWORK
+    2-DATA LINK
+    1-PHYSICAL
+
+                                                                                                                    ***Shutterstock png sini elle yazmak zorunda kaldım yukarıdaki tablonun aynısını yazmıştı zaten.***
+
+* TCP/IP, DNS, HTTP nasıl çalışır? Packet nedir?
+* Wireshark (veya terminaldeki `tcpdump`) ile kendi ağ trafiğini izle.
+===========================================================================================================
+🎯 Faz 2 Projesi: C ile kendi küçük "ls" komutunu yaz. Terminale myls yazınca klasördeki dosyaları listelesin. (Bu sana Linux dosya sisteminin ciğerini öğretir).
+📅 Faz 3: "Siber Güvenlik & Zaafiyetler" (7. - 9. Ay)
+
+Odak: Hafıza Yönetimi, Buffer Overflow, Savunma.
+
+C bildiğin için artık kodların nerede hata verdiğini anlıyorsun. Şimdi "Hacker" şapkanı takma zamanı.
+
+    Ana Ders (Security): Memory Corruption (Bellek Bozulması).
+
+        Stack ve Heap belleği nasıl çalışır?
+
+        "Buffer Overflow" nedir? Bir C programını nasıl çökertirsin?
+
+        Kendi yazdığın güvensiz C kodlarını hacklemeye çalış.
+
+    Araç (Tooling): GDB (GNU Debugger).
+
+        Kodun içine girip, hafızadaki bitleri canlı izlemeyi öğren. Neovim ile entegre et.
+
+    Linux Hardening:
+
+        Kendi Arch Linux'unu bir kaleye çevir. Firewall (iptables/nftables) kur, servisleri kısıtla.
+
+🎯 Faz 3 Projesi: Basit bir "Port Scanner" (Nmap benzeri) yaz. C dili ile bir IP adresine paket gönderip açık port var mı diye baksın.
+📅 Faz 4: "Modern Çağ: Rust & Güvenli İnşa" (10. - 12. Ay)
+
+Odak: Rust, Modern Sistem Mühendisliği, Yüksek Performans.
+
+C ile hafıza yönetmenin ne kadar zor ve tehlikeli olduğunu (Faz 3'te) gördün. Artık Rust'ın değerini anlayabilirsin.
+
+    Ana Ders (Coding): Rust.
+
+        Rust'ın "Borrow Checker" mantığını öğren.
+
+        C ile yazdığın eski projeleri Rust ile yeniden yaz ve ne kadar daha güvenli olduğunu gör.
+
+    Siber Güvenlik (Advanced): Güvenli Kodlama.
+
+        Rust kullanarak güvenli sistem araçları geliştir.
+
+    Kariyer Hazırlığı:
+
+        Github profiline bu projeleri (C ile myls, Rust ile Port Scanner) yükle.
+
+🎯 Faz 4 Projesi (Bitirme Tezi): Rust ile çok basit bir "System Monitor" (Görev Yöneticisi) yaz. CPU kullanımı, RAM kullanımı ve çalışan processleri terminalde göstersin.
+📆 Günlük Rutin Örneği (Hafta İçi - 2 Saat)
+
+Okulun/İşin olduğunu varsayarak akşam rutini:
+
+    İlk 15 Dk (Isınma - Linux/Bash):
+
+        Bilgisayarı aç. Terminalde güncelleme var mı bak (pacman -Syu).
+
+        O gün öğrendiğin yeni bir Bash komutunu dene (örneğin grep veya sed).
+
+    60 Dk (Ana Odak - C/Rust):
+
+        Neovim'i aç.
+
+        Kitaptan/Videodan konuyu çalış ve kod yaz. Kodu okuma, yaz!
+
+    30 Dk (Keşif - System/Security):
+
+        Yazdığın kodun derlenmiş halini (a.out) incele.
+
+        Veya Linux'ta /proc klasörünü gez, işletim sistemi o an ne yapıyor anlamaya çalış.
+
+    Son 15 Dk (Kapanış):
+
+        Yaptıklarını Github'a at (git push).
+
+Özet: Neden Bu Sıra?
+
+C bilmeden Rust öğrenirsen, Rust sana zor gelir. Linux bilmeden Siber Güvenlik öğrenirsen, ezbere araç kullanan bir "Script Kiddie" olursun. Bu plan seni "Tool User" (Araç Kullanan) değil, "Tool Maker" (Araç Yapan) bir Mühendis yapar.
+
+Nasıl? Bu entegre plan kafana yattı mı?
