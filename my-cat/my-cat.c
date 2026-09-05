@@ -1,3 +1,8 @@
+//this linux command program i coded uses a flexible buffer while reading characters from a text file,
+//hence its vulnerable to possible DOS attacks. i decided to move onto a version which will use a
+//fixed buffer instead, which ll increase the programs safety and also efficiency in terms of time used up
+//per resource. this program comes in handy when reading text files which grows or shrinks over time (unstable)
+//while the program is running
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,10 +16,10 @@ int main(int argc, char *argv[]){
 
     buffer = calloc (10, sizeof(char));
 
-    fptr = fopen(argv[1], "r");
+    fptr = fopen(argv[1], "r"); //open the first argument which is a directory to a text file
 
     if (fptr == NULL){
-        printf("file couldnt be opened");
+        printf("file couldnt open");
         return(-1);
     }
 
